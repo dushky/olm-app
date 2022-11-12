@@ -31,7 +31,7 @@ const ExperimentVisualization: React.FC<Props> = ({ userExperiment, running, set
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(false)
     const echo = new Echo({
       broadcaster: 'pusher',
       key: process.env.REACT_APP_PUSHER_ENV_KEY,
@@ -103,7 +103,7 @@ const ExperimentVisualization: React.FC<Props> = ({ userExperiment, running, set
         </CCol>
         {userExperiment.experiment.device?.deviceType.name === 'tom1a' && (
           <CCol md={5}>
-            <ExperimentAnimation data={data} isRunning={running} />
+            <ExperimentAnimation data={data} isRunning={running} loading={false} />
           </CCol>
         )}
       </CRow>

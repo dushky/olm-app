@@ -15,10 +15,12 @@ import { CButton } from '@coreui/react'
 
 import { SceneComponent } from './SceneComponent'
 import { WsData } from 'types'
+import {SpinnerOverlay} from "../../../../../../components";
 
 type Props = {
   data?: WsData[],
-  isRunning: boolean
+  isRunning: boolean,
+  loading: boolean
 }
 
 const onSceneReady = (scene: any) => {
@@ -102,7 +104,7 @@ const getParamValue = (data: WsData[], name: string) => {
   return param ? parseFloat(param.data[param.data.length - 1]) : 0
 }
 
-const ExperimentAnimation: React.FC<Props> = ({ data, isRunning }: Props) => {
+const ExperimentAnimation: React.FC<Props> = ({ data, isRunning, loading }: Props) => {
   const { t } = useTranslation()
   const [cover, setCover] = useState(true)
 
@@ -123,24 +125,25 @@ const ExperimentAnimation: React.FC<Props> = ({ data, isRunning }: Props) => {
   }, [data, isRunning])
 
   return (
-    <div className="d-flex flex-column justify-content-center h-100">
-      <SceneComponent
-        antialias
-        onSceneReady={onSceneReady}
-        onRender={onRender}
-        id="canvas"
-      />
+      <div className="d-flex flex-column justify-content-center h-100 position-relative">
+        {loading && <SpinnerOverlay transparent={true} className="position-absolute" style={{ zIndex: 999 }} />}
+        <SceneComponent
+            antialias
+            onSceneReady={onSceneReady}
+            onRender={onRender}
+            id="canvas"
+        />
 
-      <CButton
-        onClick={() => {
-          setCover(!cover)
-          window.cover = !window.cover
-        }}
-      >
-        {cover ? t('experiments.remove_cover') : t('experiments.add_cover')}
-      </CButton>
-    </div>
+        <CButton
+            onClick={() => {
+              setCover(!cover)
+              window.cover = !window.cover
+            }}
+        >
+          {cover ? t('experiments.remove_cover') : t('experiments.add_cover')}
+        </CButton>
+      </div>
   )
 }
 
-export default ExperimentAnimation
+export default React.memo(ExperimentAnimation)
