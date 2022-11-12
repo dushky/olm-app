@@ -304,6 +304,11 @@
     "select_value": "Vyberte hodnotu",
     "remove_cover": "Odstrániť kryt",
     "add_cover": "Pridať kryt",
+    "dashboard": {
+      "graph": "Graf",
+      "animation": "Animácia",
+      "commands": "Príkaz experimentu"
+    },
     "columns": {
       "experiment": "Experiment",
       "schema": "Schéma",
