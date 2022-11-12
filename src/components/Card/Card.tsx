@@ -13,7 +13,7 @@ interface Props {
 const Card: React.FC<Props> = ({ children, icon, title, actions, className = '' }: Props) => {
   return (
     <CCard className={className}>
-      <CCardHeader className="d-flex flex-column flex-md-row align-items-center justify-content-between">
+      <CCardHeader className="draggable-header d-flex flex-column flex-md-row align-items-center justify-content-between">
         <strong className="d-flex mb-1 mb-md-0 align-items-center justify-content-center">
           {icon && <CIcon content={icon} className="me-1" />}
           {title}
