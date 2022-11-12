@@ -21,7 +21,7 @@ const ErrorNotifier: React.FC<Props> = ({ error }: Props) => {
       )
 
     const { graphQLErrors, message } = error
-    const msg = graphQLErrors[0].message
+    const msg = graphQLErrors[0]?.message
     const reason = graphQLErrors[0]?.extensions?.reason
     const validation = graphQLErrors[0]?.extensions?.validation
 
