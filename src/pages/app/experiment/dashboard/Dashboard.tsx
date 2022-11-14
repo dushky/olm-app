@@ -5,6 +5,7 @@ import { cilSpeedometer } from '@coreui/icons'
 import { useReservationsCurrentQuery } from '__generated__/graphql'
 import { Card, ErrorNotifier, SpinnerOverlay } from 'components'
 import { Experiment, NoReservation } from './components'
+import {CContainer} from "@coreui/react";
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation()
@@ -25,9 +26,11 @@ const Dashboard: React.FC = () => {
     )
 
   return (
-    <Card title={t('experiments.title')} icon={cilSpeedometer}>
-      <Experiment device={reservation.device} />
-    </Card>
+      <CContainer xxl>
+        <Card title={t('experiments.title')} icon={cilSpeedometer}>
+          <Experiment device={reservation.device}/>
+        </Card>
+      </CContainer>
   )
 }
 
