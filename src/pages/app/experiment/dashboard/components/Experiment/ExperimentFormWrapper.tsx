@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {toast} from 'react-toast'
 
@@ -14,7 +14,29 @@ import Echo from "laravel-echo";
 import ExperimentPlot from "./ExperimentPlot";
 import ExperimentAnimation from "./ExperimentAnimation";
 import {CCol, CRow} from "@coreui/react";
-import {Responsive, WidthProvider} from "react-grid-layout";
+import {ItemCallback, Layout, Layouts, Responsive, WidthProvider,} from "react-grid-layout";
+import {useLocalStorage} from "usehooks-ts";
+import useSize from "@react-hook/size";
+
+const ResponsiveGridLayout = WidthProvider(Responsive)
+const defaultLayout: Layouts = {
+    lg: [
+        {i: "experiment-plot", x: 0, y: 0, w: 2, h: 9, minH: 9, maxH: 9, minW: 2} as Layout,
+        {i: "experiment-animation", x: 2, y: 0, w: 2, h: 7} as Layout,
+        {i: "experiment-form", x: 0, y: 9, w: 4, h: 6, minH: 6} as Layout,
+    ],
+    sm: [
+        {i: "experiment-plot", x: 0, y: 0, w: 1, h: 9, minH: 9, maxH: 9, minW: 1} as Layout,
+        {i: "experiment-animation", x: 1, y: 0, w: 1, h: 7} as Layout,
+        {i: "experiment-form", x: 0, y: 9, w: 2, h: 6, minH: 6} as Layout,
+    ],
+    xs: [
+        {i: "experiment-plot", x: 0, y: 0, w: 1, h: 9, minH: 9, maxH: 9, minW: 1} as Layout,
+        {i: "experiment-animation", x: 0, y: 9, w: 1, h: 7} as Layout,
+        {i: "experiment-form", x: 0, y: 16, w: 1, h: 6, minH: 6} as Layout,
+    ]
+
+}
 
 type Props = {
     experiments: ExperimentBasicFragment[]
@@ -27,6 +49,12 @@ window.Pusher = require('pusher-js')
 
 const ExperimentFormWrapper: React.FC<Props> = ({experiments, userExperimentCurrent}: Props) => {
     const {t} = useTranslation()
+    const [savedLayout, setSavedLayout] = useLocalStorage<Layouts>("layout", defaultLayout)
+    const [gridLayout, setGridLayout] = useState<Layouts>(savedLayout);
+    const experimentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
+    const [, experimentFormHeight] = useSize(experimentRefs.current["experiment-form"])
+    const [, experimentAnimationHeight] = useSize(experimentRefs.current["experiment-animation"])
+    const isResizing = useRef(false)
     const [running, setRunning] = useState(false)
     const [hasError, setHasError] = useState(false)
     const [disabledForm, setDisabledForm] = useState(false)
@@ -41,6 +69,13 @@ const ExperimentFormWrapper: React.FC<Props> = ({experiments, userExperimentCurr
     useEffect(() => {
         if (running) setDisabledForm(false)
     }, [running])
+
+    useEffect(() => {
+        if (!isResizing.current) {
+            handleExperimentLayoutSizeChange()
+        }
+    }, [experimentFormHeight, experimentAnimationHeight]);
+
 
     const handleSubmit = async ({
                                     experimentId,
@@ -147,20 +182,46 @@ const ExperimentFormWrapper: React.FC<Props> = ({experiments, userExperimentCurr
         }
     }, [userExperiment])
 
+    const handleResize: ItemCallback = (layout,
+                                        oldItem,
+                                        newItem,
+                                        placeholder) => {
 
-    const gridLayout = {
-        lg: [
-            {i: "experimental-plot", x: 0, y: 0, w: 1, h: 1},
-            {i: "experimental-animation", x: 1, y: 0, w: 1, h: 1},
-            {i: "experimental-form", x: 0, y: 1, w: 4, h: 1},
-        ],
-        md: [
-            {i: "experimental-plot", x: 0, y: 0, w: 1, h: 1},
-            {i: "experimental-animation", x: 1, y: 0, w: 1, h: 1},
-            {i: "experimental-form", x: 0, y: 1, w: 4, h: 1},
-        ]
-    };
-    const GridLayout = WidthProvider(Responsive)
+        let neededRows: number = countNeededRows(experimentRefs.current[newItem.i]?.clientHeight ?? 0)
+        newItem.h = neededRows
+        newItem.minH = neededRows
+        if (placeholder) {
+            placeholder.h = neededRows
+            placeholder.minH = neededRows
+        }
+    }
+
+    const handleExperimentLayoutSizeChange = () => {
+        const newLayouts: Layouts = {}
+        Object.keys(gridLayout).map( (breakpoint: string) => {
+            newLayouts[breakpoint] = gridLayout[breakpoint].map(layout => {
+                const newLayout = { ...layout } as Layout
+                const neededRows: number = countNeededRows(experimentRefs.current[newLayout.i]?.clientHeight)
+                newLayout.h = neededRows
+                newLayout.minH = neededRows
+                return newLayout
+            })
+        })
+        setGridLayout(newLayouts)
+    }
+
+    const countNeededRows = (height = 0): number => {
+        return Math.ceil(height / 50)
+    }
+
+    const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
+        setSavedLayout(allLayouts)
+        if (isResizing.current) {
+            setGridLayout(allLayouts)
+            isResizing.current = false
+        }
+    }
+
     return (
         <>
             {runUserExperimentVariables.error && (
@@ -173,44 +234,59 @@ const ExperimentFormWrapper: React.FC<Props> = ({experiments, userExperimentCurr
                     </CCol>
                 </CRow>
             )}
-            <GridLayout layouts={gridLayout}
-                        breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-                        cols={{lg: 4, md: 2, sm: 2, xs: 2, xxs: 2}}
-                        rowHeight={30}
-                        isBounded={true}
-                        draggableHandle=".draggable-header">
+            <ResponsiveGridLayout
+                layouts={gridLayout}
+                breakpoints={{lg: 992, sm: 576, xs: 0}}
+                cols={{lg: 4, sm: 2, xs: 1}}
+                rowHeight={50}
+                isBounded={true}
+                onResize={handleResize}
+                onResizeStart={() => isResizing.current = true}
+                onResizeStop={handleResize}
+                onLayoutChange={handleLayoutChange}
+                draggableHandle=".draggable-header">
 
                 {runUserExperimentVariables.loading && <SpinnerOverlay transparent={true}/>}
                 {userExperiment && (
-                    <div key="experimental-plot">
+                    <div key="experiment-plot">
                         <Card title={t("experiments.dashboard.graph")}
-                              className={"border-top-primary border-top-5"}>
-                            <ExperimentPlot data={data} loading={loading}/>
+                              className={"border-top-primary border-top-5 overflow-hidden h-100"}>
+                            <div ref={element => experimentRefs.current["experiment-plot"] = element}>
+                                <ExperimentPlot data={data} loading={loading}/>
+                            </div>
                         </Card>
                     </div>
                 )}
                 {userExperiment?.experiment.device?.deviceType.name === 'tom1a' && (
-                    <div key="experimental-animation">
+                    <div key="experiment-animation">
                         <Card title={t("experiments.dashboard.animation")}
-                              className={"border-top-primary border-top-5"}>
-                            <ExperimentAnimation data={data} isRunning={running} loading={loading}/>
+                              className={"border-top-primary border-top-5 overflow-hidden h-100"}>
+                            <div className={"pb-2"}
+                                 ref={element => experimentRefs.current["experiment-animation"] = element}>
+                                <ExperimentAnimation data={data} isRunning={running} loading={loading}/>
+                            </div>
                         </Card>
                     </div>
                 )}
-                <div key="experimental-form">
+                <div key="experiment-form">
                     <Card title={t("experiments.dashboard.commands")}
-                          className={"border-top-primary border-top-5"}>
-                        <ExperimentForm
-                            experiments={experiments}
-                            userExperimentCurrent={running ? userExperiment : undefined}
-                            handleSubmitForm={handleSubmit}
-                            handleStop={userExperiment && running ? stopExperiment : undefined}
-                            disabled={disabledForm}
-                            hasError={hasError}
-                        /></Card>
+                          className={"border-top-primary border-top-5  overflow-hidden h-100"}>
+                        <div className={"pb-2"}
+                             ref={element => experimentRefs.current["experiment-form"] = element}>
+                            <ExperimentForm
+                                experiments={experiments}
+                                userExperimentCurrent={running ? userExperiment : undefined}
+                                handleSubmitForm={handleSubmit}
+                                // handleExperimentFormSizeChange={handleExperimentFormSizeChange}
+                                handleStop={userExperiment && running ? stopExperiment : undefined}
+                                disabled={disabledForm}
+                                hasError={hasError}
+                            />
+                        </div>
+                    </Card>
                 </div>
 
-            </GridLayout>
+            </ResponsiveGridLayout>
         </>
     )
 }
