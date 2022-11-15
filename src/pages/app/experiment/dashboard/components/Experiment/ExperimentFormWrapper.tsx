@@ -277,7 +277,6 @@ const ExperimentFormWrapper: React.FC<Props> = ({experiments, userExperimentCurr
                                 experiments={experiments}
                                 userExperimentCurrent={running ? userExperiment : undefined}
                                 handleSubmitForm={handleSubmit}
-                                // handleExperimentFormSizeChange={handleExperimentFormSizeChange}
                                 handleStop={userExperiment && running ? stopExperiment : undefined}
                                 disabled={disabledForm}
                                 hasError={hasError}
