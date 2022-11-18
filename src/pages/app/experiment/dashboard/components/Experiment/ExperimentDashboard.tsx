@@ -1,5 +1,5 @@
 import {ItemCallback, Layout, Layouts, Responsive, WidthProvider} from "react-grid-layout";
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef} from "react";
 import {Card} from "../../../../../../components";
 import ExperimentPlot from "./ExperimentPlot";
 import ExperimentAnimation from "./ExperimentAnimation";
@@ -37,13 +37,13 @@ type Props = {}
 
 const ExperimentDashboard: React.FC<Props> = () => {
     const dashboard = useContext(DashboardContext);
-    const [savedLayout, setSavedLayout] = useLocalStorage<Layouts>("layout", defaultLayout)
     const {t} = useTranslation()
-    const [gridLayout, setGridLayout] = useState<Layouts>(savedLayout);
+    const [savedGridLayout, setSavedGridLayout] = useLocalStorage<Layouts>("layout", defaultLayout)
     const experimentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
     const [, experimentFormHeight] = useSize(experimentRefs.current["experiment-form"])
     const [, experimentAnimationHeight] = useSize(experimentRefs.current["experiment-animation"])
     const isResizing = useRef(false)
+    const breakpoint = useRef("")
 
     useEffect(() => {
         if (!isResizing.current) {
@@ -55,7 +55,6 @@ const ExperimentDashboard: React.FC<Props> = () => {
                                         oldItem,
                                         newItem,
                                         placeholder) => {
-
         let neededRows: number = countNeededRows(experimentRefs.current[newItem.i]?.clientHeight ?? 0)
         newItem.h = neededRows
         newItem.minH = neededRows
@@ -65,12 +64,23 @@ const ExperimentDashboard: React.FC<Props> = () => {
         }
     }
 
+    const handleResizeAndDragStop: ItemCallback = (layout) => {
+        setSavedGridLayout((savedGridLayout) => {
+                return {
+                    ...savedGridLayout,
+                    [breakpoint.current]: layout
+                }
+            }
+        )
+        isResizing.current = false
+    }
+
     const handleExperimentLayoutSizeChange = () => {
 
-        setGridLayout((gridLayout) => {
+        setSavedGridLayout((savedGridLayout) => {
             const newLayouts: Layouts = {}
-            Object.keys(gridLayout).forEach((breakpoint: string) => {
-                newLayouts[breakpoint] = gridLayout[breakpoint].map(layout => {
+            Object.keys(savedGridLayout).forEach((breakpoint: string) => {
+                newLayouts[breakpoint] = savedGridLayout[breakpoint].map(layout => {
                     const newLayout = {...layout} as Layout
                     const neededRows: number = countNeededRows(experimentRefs.current[newLayout.i]?.clientHeight)
                     newLayout.h = neededRows
@@ -82,25 +92,18 @@ const ExperimentDashboard: React.FC<Props> = () => {
         })
     }
 
-    const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
-        setSavedLayout(allLayouts)
-        if (isResizing.current) {
-            setGridLayout(allLayouts)
-            isResizing.current = false
-        }
-    }
-
     return (
         <ResponsiveGridLayout
-            layouts={gridLayout}
+            layouts={savedGridLayout}
             breakpoints={{lg: 992, sm: 576, xs: 0}}
             cols={{lg: 4, sm: 2, xs: 1}}
             rowHeight={rowHeight}
             isBounded={true}
             onResize={handleResize}
             onResizeStart={() => isResizing.current = true}
-            onResizeStop={handleResize}
-            onLayoutChange={handleLayoutChange}
+            onResizeStop={handleResizeAndDragStop}
+            onDragStop={handleResizeAndDragStop}
+            onBreakpointChange={(newBreakpoint) => breakpoint.current = newBreakpoint}
             draggableHandle=".draggable-header">
             {dashboard.userExperiment && (
                 <div key="experiment-plot">
