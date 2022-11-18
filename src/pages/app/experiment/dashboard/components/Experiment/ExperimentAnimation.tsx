@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {
   Vector3,
   HemisphericLight,
@@ -16,11 +16,9 @@ import { CButton } from '@coreui/react'
 import { SceneComponent } from './SceneComponent'
 import { WsData } from 'types'
 import {SpinnerOverlay} from "../../../../../../components";
+import {DashboardContext} from "./ExperimentDashboardWrapper";
 
 type Props = {
-  data?: WsData[],
-  isRunning: boolean,
-  loading: boolean
 }
 
 const onSceneReady = (scene: any) => {
@@ -104,7 +102,12 @@ const getParamValue = (data: WsData[], name: string) => {
   return param ? parseFloat(param.data[param.data.length - 1]) : 0
 }
 
-const ExperimentAnimation: React.FC<Props> = ({ data, isRunning, loading }: Props) => {
+const ExperimentAnimation: React.FC<Props> = ({}: Props) => {
+  const {
+    loading,
+    data,
+      running
+  } = useContext(DashboardContext)
   const { t } = useTranslation()
   const [cover, setCover] = useState(true)
 
@@ -113,7 +116,7 @@ const ExperimentAnimation: React.FC<Props> = ({ data, isRunning, loading }: Prop
   }, [])
 
   useEffect(() => {
-    if (!isRunning || !data) {
+    if (!running || !data) {
       window.range = 0
       window.ledIntensity = 0
       window.bulbIntensity = 0
@@ -122,7 +125,7 @@ const ExperimentAnimation: React.FC<Props> = ({ data, isRunning, loading }: Prop
       window.ledIntensity = getParamValue(data, 'LED control signal') // 17 // 19
       window.bulbIntensity = getParamValue(data, 'Lamp control signal') // 16 // 18
     }
-  }, [data, isRunning])
+  }, [data, running])
 
   return (
       <div className="d-flex flex-column justify-content-center h-100 position-relative">

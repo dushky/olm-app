@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {SpinnerOverlay} from "../../../../../../components";
 import PlotlyChart from "react-plotly.js";
 import {LegendClickEvent} from "plotly.js";
-import { WsData } from "types";
 import {PlotData} from 'plotly.js'
+import {DashboardContext} from "./ExperimentDashboardWrapper";
 
 type Props = {
-    loading: boolean,
-    data?: WsData[],
 }
 
 
@@ -15,7 +13,11 @@ const getAxisVisibility = (name: string, axis?: PlotData[]) => {
     return axis?.find((item) => item.name === name)?.visible ?? 'legendonly'
 }
 
-const ExperimentalPlot: React.FC<Props> = ({loading, data}: Props) => {
+const ExperimentalPlot: React.FC<Props> = ({}: Props) => {
+    const {
+        loading,
+        data
+    } = useContext(DashboardContext)
     const [graphData, setGraphData] = useState<PlotData[]>()
 
     useEffect(() => {
