@@ -202,17 +202,20 @@ const ExperimentFormWrapper: React.FC<Props> = ({experiments, userExperimentCurr
     }
 
     const handleExperimentLayoutSizeChange = () => {
-        const newLayouts: Layouts = {}
-        Object.keys(gridLayout).map( (breakpoint: string) => {
-            newLayouts[breakpoint] = gridLayout[breakpoint].map(layout => {
-                const newLayout = { ...layout } as Layout
-                const neededRows: number = countNeededRows(experimentRefs.current[newLayout.i]?.clientHeight)
-                newLayout.h = neededRows
-                newLayout.minH = neededRows
-                return newLayout
+
+        setGridLayout((gridLayout) => {
+            const newLayouts: Layouts = {}
+            Object.keys(gridLayout).forEach( (breakpoint: string) => {
+                newLayouts[breakpoint] = gridLayout[breakpoint].map(layout => {
+                    const newLayout = { ...layout } as Layout
+                    const neededRows: number = countNeededRows(experimentRefs.current[newLayout.i]?.clientHeight)
+                    newLayout.h = neededRows
+                    newLayout.minH = neededRows
+                    return newLayout
+                })
             })
+            return newLayouts
         })
-        setGridLayout(newLayouts)
     }
 
     const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
