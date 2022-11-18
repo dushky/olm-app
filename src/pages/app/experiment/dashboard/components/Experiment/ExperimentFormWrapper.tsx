@@ -37,6 +37,11 @@ const defaultLayout: Layouts = {
     ]
 
 }
+const rowHeight = 50
+
+const countNeededRows = (height = 0): number => {
+    return Math.ceil(height / rowHeight)
+}
 
 type Props = {
     experiments: ExperimentBasicFragment[]
@@ -210,10 +215,6 @@ const ExperimentFormWrapper: React.FC<Props> = ({experiments, userExperimentCurr
         setGridLayout(newLayouts)
     }
 
-    const countNeededRows = (height = 0): number => {
-        return Math.ceil(height / 50)
-    }
-
     const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
         setSavedLayout(allLayouts)
         if (isResizing.current) {
@@ -238,7 +239,7 @@ const ExperimentFormWrapper: React.FC<Props> = ({experiments, userExperimentCurr
                 layouts={gridLayout}
                 breakpoints={{lg: 992, sm: 576, xs: 0}}
                 cols={{lg: 4, sm: 2, xs: 1}}
-                rowHeight={50}
+                rowHeight={rowHeight}
                 isBounded={true}
                 onResize={handleResize}
                 onResizeStart={() => isResizing.current = true}
