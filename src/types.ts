@@ -1,5 +1,10 @@
 import CIcon from '@coreui/icons-react'
-import { DeviceWithReservationsFragment, ReservationBasicFragment, UserExperimentArgInput } from '__generated__/graphql'
+import {
+  DeviceWithReservationsFragment, ExperimentBasicFragment,
+  ReservationBasicFragment,
+  UserExperimentArgInput,
+  UserExperimentDashboardFragment
+} from '__generated__/graphql'
 
 export interface SidebarNavItemBadge {
   color:
@@ -125,4 +130,16 @@ export type WsResponse = {
   finished?: boolean,
   error?: string,
   data?: WsData[]
+}
+
+export type DashboardContent = {
+  experiments: ExperimentBasicFragment[],
+  userExperiment: UserExperimentDashboardFragment | undefined,
+  data: WsData[] | undefined,
+  loading: boolean,
+  running: boolean,
+  hasError: boolean,
+  disabledForm: boolean,
+  handleSubmit: (input: ExperimentFormInput) => void,
+  handleStop: () => void
 }
