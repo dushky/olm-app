@@ -69,9 +69,9 @@ const ExperimentDashboard: React.FC<Props> = () => {
 
         setGridLayout((gridLayout) => {
             const newLayouts: Layouts = {}
-            Object.keys(gridLayout).forEach( (breakpoint: string) => {
+            Object.keys(gridLayout).forEach((breakpoint: string) => {
                 newLayouts[breakpoint] = gridLayout[breakpoint].map(layout => {
-                    const newLayout = { ...layout } as Layout
+                    const newLayout = {...layout} as Layout
                     const neededRows: number = countNeededRows(experimentRefs.current[newLayout.i]?.clientHeight)
                     newLayout.h = neededRows
                     newLayout.minH = neededRows
@@ -89,6 +89,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             isResizing.current = false
         }
     }
+
     return (
         <ResponsiveGridLayout
             layouts={gridLayout}
@@ -106,7 +107,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
                     <Card title={t("experiments.dashboard.graph")}
                           className={"border-top-primary border-top-5 overflow-hidden h-100"}>
                         <div ref={element => experimentRefs.current["experiment-plot"] = element}>
-                            <ExperimentPlot />
+                            <ExperimentPlot/>
                         </div>
                     </Card>
                 </div>

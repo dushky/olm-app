@@ -256,7 +256,8 @@ const ExperimentFormWrapper: React.FC<Props> = ({experiments, userExperimentCurr
                         <Card title={t("experiments.dashboard.graph")}
                               className={"border-top-primary border-top-5 overflow-hidden h-100"}>
                             <div ref={element => experimentRefs.current["experiment-plot"] = element}>
-                                <ExperimentPlot data={data} loading={loading}/>
+                                {/*<ExperimentPlot data={data} loading={loading}/>*/}
+                                <ExperimentPlot/>
                             </div>
                         </Card>
                     </div>
@@ -267,7 +268,8 @@ const ExperimentFormWrapper: React.FC<Props> = ({experiments, userExperimentCurr
                               className={"border-top-primary border-top-5 overflow-hidden h-100"}>
                             <div className={"pb-2"}
                                  ref={element => experimentRefs.current["experiment-animation"] = element}>
-                                <ExperimentAnimation data={data} isRunning={running} loading={loading}/>
+                                {/*<ExperimentAnimation data={data} isRunning={running} loading={loading}/>*/}
+                                <ExperimentAnimation />
                             </div>
                         </Card>
                     </div>

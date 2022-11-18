@@ -18,8 +18,13 @@ import { WsData } from 'types'
 import {SpinnerOverlay} from "../../../../../../components";
 import {DashboardContext} from "./ExperimentDashboardWrapper";
 
-type Props = {
-}
+// type Props = {
+//   data?: WsData[],
+//   running: boolean,
+//   loading: boolean
+// }
+
+type Props = {}
 
 const onSceneReady = (scene: any) => {
   scene.getEngine().enableOfflineSupport = false;
@@ -102,7 +107,8 @@ const getParamValue = (data: WsData[], name: string) => {
   return param ? parseFloat(param.data[param.data.length - 1]) : 0
 }
 
-const ExperimentAnimation: React.FC<Props> = ({}: Props) => {
+// const ExperimentAnimation: React.FC<Props> = ({ data, running, loading }: Props) => {
+const ExperimentAnimation: React.FC<Props> = () => {
   const {
     loading,
     data,

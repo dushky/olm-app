@@ -1,19 +1,21 @@
 import React, {useContext, useEffect, useState} from "react";
 import {SpinnerOverlay} from "../../../../../../components";
 import PlotlyChart from "react-plotly.js";
-import {LegendClickEvent} from "plotly.js";
-import {PlotData} from 'plotly.js'
+import {LegendClickEvent, PlotData} from "plotly.js";
 import {DashboardContext} from "./ExperimentDashboardWrapper";
 
-type Props = {
-}
-
+// type Props = {
+//     loading: boolean,
+//     data?: WsData[],
+// }
+type Props = {}
 
 const getAxisVisibility = (name: string, axis?: PlotData[]) => {
     return axis?.find((item) => item.name === name)?.visible ?? 'legendonly'
 }
 
-const ExperimentalPlot: React.FC<Props> = ({}: Props) => {
+// const ExperimentalPlot: React.FC<Props> = ({loading, data}: Props) => {
+const ExperimentalPlot: React.FC<Props> = () => {
     const {
         loading,
         data
@@ -21,8 +23,9 @@ const ExperimentalPlot: React.FC<Props> = ({}: Props) => {
     const [graphData, setGraphData] = useState<PlotData[]>()
 
     useEffect(() => {
-        if (data)
-        updateGraphData()
+        if (data) {
+            updateGraphData()
+        }
     }, [data])
 
 
@@ -54,7 +57,7 @@ const ExperimentalPlot: React.FC<Props> = ({}: Props) => {
             <PlotlyChart
                 data={graphData || []}
                 onLegendClick={(e: Readonly<LegendClickEvent>) => {
-                    setGraphData( e?.data as PlotData[] )
+                    setGraphData(e?.data as PlotData[])
                     return true
                 }}
                 layout={{}}

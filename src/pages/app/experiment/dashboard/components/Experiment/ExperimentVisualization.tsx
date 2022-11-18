@@ -103,7 +103,8 @@ const ExperimentVisualization: React.FC<Props> = ({ userExperiment, running, set
         </CCol>
         {userExperiment.experiment.device?.deviceType.name === 'tom1a' && (
           <CCol md={5}>
-            <ExperimentAnimation data={data} isRunning={running} loading={false} />
+            {/*<ExperimentAnimation data={data} isRunning={running} loading={false} />*/}
+            <ExperimentAnimation />
           </CCol>
         )}
       </CRow>
