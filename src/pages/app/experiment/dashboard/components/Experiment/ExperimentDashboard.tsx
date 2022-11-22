@@ -27,10 +27,16 @@ const defaultLayout: Layouts = {
         {i: "experiment-form", x: 0, y: 16, w: 1, h: 6, minH: 6} as Layout,
     ]
 }
-const rowHeight = 50
 
-const countNeededRows = (height = 0): number => {
-    return Math.ceil(height / rowHeight)
+// to fit card header for minimize function
+const rowHeight = 47
+
+const countNeededRows = (height = 1): number => {
+    let neededRows = Math.ceil(height / rowHeight)
+    if (neededRows === 0) {
+        return 1
+    }
+    return neededRows
 }
 
 type Props = {}
@@ -42,6 +48,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
     const experimentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
     const [, experimentFormHeight] = useSize(experimentRefs.current["experiment-form"])
     const [, experimentAnimationHeight] = useSize(experimentRefs.current["experiment-animation"])
+    const [, experimentPlotHeight] = useSize(experimentRefs.current["experiment-plot"])
     const isResizing = useRef(false)
     const breakpoint = useRef("")
 
@@ -49,13 +56,13 @@ const ExperimentDashboard: React.FC<Props> = () => {
         if (!isResizing.current) {
             handleExperimentLayoutSizeChange()
         }
-    }, [experimentFormHeight, experimentAnimationHeight]);
+    }, [experimentFormHeight, experimentAnimationHeight, experimentPlotHeight]);
 
     const handleResize: ItemCallback = (layout,
                                         oldItem,
                                         newItem,
                                         placeholder) => {
-        let neededRows: number = countNeededRows(experimentRefs.current[newItem.i]?.clientHeight ?? 0)
+        let neededRows: number = countNeededRows(experimentRefs.current[newItem.i]?.clientHeight)
         newItem.h = neededRows
         newItem.minH = neededRows
         if (placeholder) {
@@ -108,6 +115,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             {dashboard.userExperiment && (
                 <div key="experiment-plot">
                     <Card title={t("experiments.dashboard.graph")}
+                          itCanMinimize={true}
                           className={"border-top-primary border-top-5 overflow-hidden h-100"}>
                         <div ref={element => experimentRefs.current["experiment-plot"] = element}>
                             <ExperimentPlot/>
@@ -118,6 +126,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             {dashboard.userExperiment?.experiment.device?.deviceType.name === 'tom1a' && (
                 <div key="experiment-animation">
                     <Card title={t("experiments.dashboard.animation")}
+                          itCanMinimize={true}
                           className={"border-top-primary border-top-5 overflow-hidden h-100"}>
                         <div className={"pb-2"}
                              ref={element => experimentRefs.current["experiment-animation"] = element}>
@@ -128,6 +137,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             )}
             <div key="experiment-form">
                 <Card title={t("experiments.dashboard.commands")}
+                      itCanMinimize={true}
                       className={"border-top-primary border-top-5  overflow-hidden h-100"}>
                     <div className={"pb-2"}
                          ref={element => experimentRefs.current["experiment-form"] = element}>
