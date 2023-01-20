@@ -26,3 +26,10 @@ img {
 .react-grid-item.react-grid-placeholder {
   background-color: rgba(50, 31, 219, 0.5);
 }
+
+.form-floating > label {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+}
