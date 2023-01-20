@@ -134,7 +134,7 @@ const ExperimentAnimation: React.FC<Props> = () => {
   }, [data, running])
 
   return (
-      <div className="d-flex flex-column justify-content-center h-100 position-relative">
+      <div className="d-flex flex-column justify-content-center h-100 position-relative pb-2">
         {loading && <SpinnerOverlay transparent={true} className="position-absolute" style={{ zIndex: 999 }} />}
         <SceneComponent
             antialias

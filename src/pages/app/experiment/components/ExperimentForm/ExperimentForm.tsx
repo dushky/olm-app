@@ -243,7 +243,9 @@ const ExperimentForm: React.FC<Props> = ({
           handleDismiss={() => setVisiblePreview(false)}
         />
       )}
-      <CForm onSubmit={handleSubmit}>
+      <CForm
+          className={"pb-2"}
+          onSubmit={handleSubmit}>
         {loading && <SpinnerOverlay transparent={true} />}
         {error && <ErrorNotifier error={error} />}
         <CRow>
