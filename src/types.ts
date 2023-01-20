@@ -123,7 +123,8 @@ export type ArgumentOption = {
 
 export type WsData = {
   name: string,
-  data: string[]
+  data: string[],
+  defaultVisibilityFor: string[]
 }
 
 export type WsResponse = {
