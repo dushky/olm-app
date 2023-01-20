@@ -44,7 +44,10 @@ type Props = {}
 const ExperimentDashboard: React.FC<Props> = () => {
     const dashboard = useContext(DashboardContext);
     const {t} = useTranslation()
-    const [savedGridLayout, setSavedGridLayout] = useLocalStorage<Layouts>("layout", defaultLayout)
+    const [savedExperimentFormMinimization, setSavedExperimentFormMinimization] = useLocalStorage<boolean>("experimentFormMinimization", false)
+    const [savedExperimentPlotMinimization, setSavedExperimentPlotMinimization] = useLocalStorage<boolean>("experimentPlotMinimization", false)
+    const [savedExperimentAnimationMinimization, setSavedExperimentAnimationMinimization] = useLocalStorage<boolean>("experimentAnimationMinimization", false)
+    const [savedGridLayout, setSavedGridLayout] = useLocalStorage<Layouts>("gridLayout", defaultLayout)
     const experimentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
     const [, experimentFormHeight] = useSize(experimentRefs.current["experiment-form"])
     const [, experimentAnimationHeight] = useSize(experimentRefs.current["experiment-animation"])
@@ -112,21 +115,19 @@ const ExperimentDashboard: React.FC<Props> = () => {
             onDragStop={handleResizeAndDragStop}
             onBreakpointChange={(newBreakpoint) => breakpoint.current = newBreakpoint}
             draggableHandle=".draggable-header">
-            {dashboard.userExperiment && (
-                <div key="experiment-plot">
-                    <Card title={t("experiments.dashboard.graph")}
-                          itCanMinimize={true}
-                          className={"border-top-primary border-top-5 overflow-hidden h-100"}>
-                        <div ref={element => experimentRefs.current["experiment-plot"] = element}>
-                            <ExperimentPlot/>
-                        </div>
-                    </Card>
-                </div>
-            )}
-            {dashboard.userExperiment?.experiment.device?.deviceType.name === 'tom1a' && (
+            <div key="experiment-plot">
+                <Card title={t("experiments.dashboard.graph")}
+                      minimization={[savedExperimentPlotMinimization, setSavedExperimentPlotMinimization]}
+                      className={"border-top-primary border-top-5 overflow-hidden h-100"}>
+                    <div ref={element => experimentRefs.current["experiment-plot"] = element}>
+                        <ExperimentPlot/>
+                    </div>
+                </Card>
+            </div>
+            {[dashboard.userExperiment?.experiment.device?.deviceType.name, dashboard.experiments[0].deviceType.name].includes('tom1a') && (
                 <div key="experiment-animation">
                     <Card title={t("experiments.dashboard.animation")}
-                          itCanMinimize={true}
+                          minimization={[savedExperimentAnimationMinimization, setSavedExperimentAnimationMinimization]}
                           className={"border-top-primary border-top-5 overflow-hidden h-100"}>
                         <div className={"pb-2"}
                              ref={element => experimentRefs.current["experiment-animation"] = element}>
@@ -137,7 +138,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             )}
             <div key="experiment-form">
                 <Card title={t("experiments.dashboard.commands")}
-                      itCanMinimize={true}
+                      minimization={[savedExperimentFormMinimization, setSavedExperimentFormMinimization]}
                       className={"border-top-primary border-top-5  overflow-hidden h-100"}>
                     <div className={"pb-2"}
                          ref={element => experimentRefs.current["experiment-form"] = element}>

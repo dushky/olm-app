@@ -1,4 +1,3 @@
-import React, {useState} from 'react'
 import CIcon from '@coreui/icons-react'
 import {cilWindowMinimize} from '@coreui/icons'
 import {CCard, CCardBody, CCardHeader} from '@coreui/react'
@@ -9,13 +8,15 @@ interface Props {
     title: string
     actions?: JSX.Element | JSX.Element[]
     className?: string,
-    itCanMinimize?: boolean
+    minimization?: [boolean, ((isMinimized: boolean) => void) | undefined]
 }
 
-const Card: React.FC<Props> = ({children, icon, title, actions, className = '', itCanMinimize = false}: Props) => {
-    const [showBody, setShowBody] = useState(true);
+const Card: React.FC<Props> = ({children, icon, title, actions, className = '', minimization = [false, undefined]}: Props) => {
+    const [isMinimized, setIsMinimized] = minimization ?? [false, undefined];
     const handleMinimize = () => {
-        setShowBody((showBody) => !showBody)
+        if (setIsMinimized) {
+            setIsMinimized(!isMinimized)
+        }
     }
 
     return (
@@ -31,10 +32,10 @@ const Card: React.FC<Props> = ({children, icon, title, actions, className = '', 
                     </div>
                     {actions && <div>{actions}</div>}
                 </div>
-                {itCanMinimize &&
+                {setIsMinimized &&
                     <CIcon style={{cursor: "pointer"}} className="ms-3" content={cilWindowMinimize} onClick={handleMinimize}/>}
             </CCardHeader>
-            <CCardBody style={showBody ? {} : {display: "none"}}>{children}</CCardBody>
+            <CCardBody style={ isMinimized ? {display: "none"} : {}}>{children}</CCardBody>
         </CCard>
     )
 }
