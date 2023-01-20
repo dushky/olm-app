@@ -29,7 +29,7 @@ const ExperimentDashboardWrapper: React.FC<Props> = ({experiments, userExperimen
     const [disabledForm, setDisabledForm] = useState(false)
     const [wsError, setWsError] = useState<string>()
     const [data, setData] = useState<WsData[]>()
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [runUserExperimentMutation, runUserExperimentVariables] = useRunUserExperimentMutation()
     const [userExperiment, setUserExperiment] = useState<UserExperimentDashboardFragment | undefined>(
         userExperimentCurrent,
@@ -106,7 +106,7 @@ const ExperimentDashboardWrapper: React.FC<Props> = ({experiments, userExperimen
 
     useEffect(() => {
         if (userExperiment) {
-            setLoading(false)
+            setLoading(true)
             const echo = new Echo({
                 broadcaster: 'pusher',
                 key: process.env.REACT_APP_PUSHER_ENV_KEY,
