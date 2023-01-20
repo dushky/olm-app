@@ -66,9 +66,11 @@ const ExperimentDashboard: React.FC<Props> = () => {
         let neededRows: number = countNeededRows(experimentRefs.current[newItem.i]?.offsetHeight)
         newItem.h = neededRows
         newItem.minH = neededRows
+        newItem.maxH = neededRows
         if (placeholder) {
             placeholder.h = neededRows
             placeholder.minH = neededRows
+            placeholder.maxH = neededRows
         }
     }
 
@@ -90,7 +92,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             Object.keys(savedGridLayout).forEach((breakpoint: string) => {
                 newLayouts[breakpoint] = savedGridLayout[breakpoint].map(layout => {
                     const newLayout = {...layout} as Layout
-                    const neededRows: number = countNeededRows(experimentRefs.current[newLayout.i]?.clientHeight)
+                    const neededRows: number = countNeededRows(experimentRefs.current[newLayout.i]?.offsetHeight)
                     newLayout.h = neededRows
                     newLayout.minH = neededRows
                     return newLayout
