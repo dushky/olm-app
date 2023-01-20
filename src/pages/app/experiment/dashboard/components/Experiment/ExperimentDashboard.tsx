@@ -72,6 +72,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             placeholder.minH = neededRows
             placeholder.maxH = neededRows
         }
+        window.dispatchEvent(new Event('resize'));
     }
 
     const handleResizeAndDragStop: ItemCallback = (layout) => {
@@ -83,6 +84,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             }
         )
         isResizing.current = false
+        window.dispatchEvent(new Event('resize'));
     }
 
     const handleExperimentLayoutSizeChange = () => {
@@ -100,6 +102,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             })
             return newLayouts
         })
+        window.dispatchEvent(new Event('resize'));
     }
 
     return (
