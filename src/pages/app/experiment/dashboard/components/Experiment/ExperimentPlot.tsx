@@ -43,7 +43,7 @@ const ExperimentalPlot: React.FC<Props> = () => {
                 ? data[0].data.map((timestamp: string) => parseFloat(timestamp))
                 : Array.from(Array(data[0].data).keys()).map((i) => i)
 
-            setGraphData( () =>
+            setGraphData( (graphData) =>
                 data.map((d) => {
                     if (d.name === 'Timestamp') return {} as PlotData
                     return {
