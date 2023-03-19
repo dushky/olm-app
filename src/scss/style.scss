@@ -12,10 +12,24 @@
 
 @import 'app-toast';
 
+@import "/node_modules/react-grid-layout/css/styles.css";
+@import "/node_modules/react-resizable/css/styles.css";
+
 .react-datepicker-wrapper {
   width: auto;
 }
 
 img {
   max-width: 100%;
+}
+
+.react-grid-item.react-grid-placeholder {
+  background-color: rgba(50, 31, 219, 0.5);
+}
+
+.form-floating > label {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
 }

@@ -243,11 +243,13 @@ const ExperimentForm: React.FC<Props> = ({
           handleDismiss={() => setVisiblePreview(false)}
         />
       )}
-      <CForm onSubmit={handleSubmit}>
+      <CForm
+          className={"pb-2"}
+          onSubmit={handleSubmit}>
         {loading && <SpinnerOverlay transparent={true} />}
         {error && <ErrorNotifier error={error} />}
         <CRow>
-          <CCol sm={3}>
+          <CCol style={{ minWidth: "10rem"}}>
             <CFormLabel className="d-block">{t('experiments.columns.experiment')}</CFormLabel>
             <CFormSelect
               aria-label="experiment"
@@ -306,7 +308,7 @@ const ExperimentForm: React.FC<Props> = ({
             )}
           </CCol>
 
-          <CCol sm={9}>
+          <CCol style={{minWidth: "10rem"}}>
             <CFormLabel className="d-block">{t('experiments.columns.command')}</CFormLabel>
             <CFormSelect
               aria-label="command"

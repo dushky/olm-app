@@ -41,6 +41,7 @@ fragment ExperimentBasic on Experiment {
   }
   deviceType {
     id
+    name
   }
   experiment_commands {
     name
@@ -77,7 +78,8 @@ fragment UserExperimentDashboard on UserExperiment {
       websocket_port
     }
     software {
-      id
+      id,
+      name
     }
   }
   schema {

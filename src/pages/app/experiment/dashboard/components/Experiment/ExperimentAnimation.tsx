@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {
   Vector3,
   HemisphericLight,
@@ -15,11 +15,16 @@ import { CButton } from '@coreui/react'
 
 import { SceneComponent } from './SceneComponent'
 import { WsData } from 'types'
+import {SpinnerOverlay} from "../../../../../../components";
+import {DashboardContext} from "./ExperimentDashboardWrapper";
 
-type Props = {
-  data?: WsData[],
-  isRunning: boolean
-}
+// type Props = {
+//   data?: WsData[],
+//   running: boolean,
+//   loading: boolean
+// }
+
+type Props = {}
 
 const onSceneReady = (scene: any) => {
   scene.getEngine().enableOfflineSupport = false;
@@ -102,7 +107,13 @@ const getParamValue = (data: WsData[], name: string) => {
   return param ? parseFloat(param.data[param.data.length - 1]) : 0
 }
 
-const ExperimentAnimation: React.FC<Props> = ({ data, isRunning }: Props) => {
+// const ExperimentAnimation: React.FC<Props> = ({ data, running, loading }: Props) => {
+const ExperimentAnimation: React.FC<Props> = () => {
+  const {
+    loading,
+    data,
+      running
+  } = useContext(DashboardContext)
   const { t } = useTranslation()
   const [cover, setCover] = useState(true)
 
@@ -111,7 +122,7 @@ const ExperimentAnimation: React.FC<Props> = ({ data, isRunning }: Props) => {
   }, [])
 
   useEffect(() => {
-    if (!isRunning || !data) {
+    if (!running || !data) {
       window.range = 0
       window.ledIntensity = 0
       window.bulbIntensity = 0
@@ -120,27 +131,28 @@ const ExperimentAnimation: React.FC<Props> = ({ data, isRunning }: Props) => {
       window.ledIntensity = getParamValue(data, 'LED control signal') // 17 // 19
       window.bulbIntensity = getParamValue(data, 'Lamp control signal') // 16 // 18
     }
-  }, [data, isRunning])
+  }, [data, running])
 
   return (
-    <div className="d-flex flex-column justify-content-center h-100">
-      <SceneComponent
-        antialias
-        onSceneReady={onSceneReady}
-        onRender={onRender}
-        id="canvas"
-      />
+      <div className="d-flex flex-column justify-content-center h-100 position-relative pb-2">
+        {loading && <SpinnerOverlay transparent={true} className="position-absolute" style={{ zIndex: 999 }} />}
+        <SceneComponent
+            antialias
+            onSceneReady={onSceneReady}
+            onRender={onRender}
+            id="canvas"
+        />
 
-      <CButton
-        onClick={() => {
-          setCover(!cover)
-          window.cover = !window.cover
-        }}
-      >
-        {cover ? t('experiments.remove_cover') : t('experiments.add_cover')}
-      </CButton>
-    </div>
+        <CButton
+            onClick={() => {
+              setCover(!cover)
+              window.cover = !window.cover
+            }}
+        >
+          {cover ? t('experiments.remove_cover') : t('experiments.add_cover')}
+        </CButton>
+      </div>
   )
 }
 
-export default ExperimentAnimation
+export default React.memo(ExperimentAnimation)
