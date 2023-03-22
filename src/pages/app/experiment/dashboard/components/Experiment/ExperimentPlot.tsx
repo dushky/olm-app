@@ -12,7 +12,7 @@ type Props = {}
 
 
 // const ExperimentalPlot: React.FC<Props> = ({loading, data}: Props) => {
-const ExperimentalPlot: React.FC<Props> = () => {
+const ExperimentPlot: React.FC<Props> = () => {
     const {
         loading,
         data,
@@ -77,4 +77,4 @@ const ExperimentalPlot: React.FC<Props> = () => {
 }
 
 
-export default React.memo(ExperimentalPlot)
+export default React.memo(ExperimentPlot)

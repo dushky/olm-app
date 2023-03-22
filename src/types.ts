@@ -143,4 +143,5 @@ export type DashboardContent = {
   disabledForm: boolean,
   handleSubmit: (input: ExperimentFormInput) => void,
   handleStop: () => void
+  cameraIsConnected?: boolean
 }

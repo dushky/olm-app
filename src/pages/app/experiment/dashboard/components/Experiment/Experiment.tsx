@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { ErrorNotifier, SpinnerOverlay } from 'components'
 import {
-  DeviceWithServerFragment,
+  DeviceWithServerFragment, useCameraStatusQuery,
   useExperimentsQuery,
   useUserExperimentCurrentQuery,
 } from '__generated__/graphql'
@@ -28,7 +28,14 @@ const Experiment: React.FC<Props> = ({ device }: Props) => {
     notifyOnNetworkStatusChange: true,
   })
 
-  if (experimentsResponse.loading || userExperimentResponse.loading)
+  const cameraStatus = useCameraStatusQuery({
+    notifyOnNetworkStatusChange: true,
+    variables: {
+      serverId: device.server.id,
+    },
+  });
+
+  if (experimentsResponse.loading || userExperimentResponse.loading || cameraStatus.loading)
     return <SpinnerOverlay transparent={true} />
   if (experimentsResponse.error) return <ErrorNotifier error={experimentsResponse.error} />
   if (userExperimentResponse.error) return <ErrorNotifier error={userExperimentResponse.error} />
@@ -39,6 +46,7 @@ const Experiment: React.FC<Props> = ({ device }: Props) => {
     <ExperimentDashboardWrapper
       experiments={experimentsResponse.data.experiments}
       userExperimentCurrent={userExperimentResponse.data?.userExperimentCurrent || undefined}
+      cameraIsConnected={!cameraStatus.error && cameraStatus.data?.cameraStatus.isConnected}
     />
   )
 }

@@ -9,3 +9,15 @@ mutation QueueUserExperiment($queueUserExperimentInput: QueueUserExperimentInput
     ...UserExperimentDashboard
   }
 }
+
+mutation StartVideoStream($serverId: ID!) {
+  startVideoStream(server_id: $serverId) {
+    ...VideoStreamStatus
+  }
+}
+
+mutation StopVideoStream($serverId: ID!) {
+  stopVideoStream(server_id: $serverId) {
+    ...StopVideoStreamStatus
+  }
+}

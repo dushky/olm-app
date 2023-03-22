@@ -306,6 +306,12 @@
     "select_value": "Select value",
     "remove_cover": "Remove cover",
     "add_cover": "Add cover",
+    "dashboard": {
+      "graph": "Graph",
+      "animation": "Animation",
+      "commands": "Experiment command",
+      "video": "Video stream"
+    },
     "columns": {
       "experiment": "Experiment",
       "schema": "Schema",
@@ -315,12 +321,14 @@
       "run": {
         "btn": "Run experiment command",
         "success": "Command has been run!",
-        "error": "Command could not be run!"
+        "error": "Command could not be run!",
+        "video": "Start video stream"
       },
       "stop": {
         "btn": "Stop experiment",
         "success": "Expriment has been stopped!",
-        "error": "Command could not be stopped!"
+        "error": "Command could not be stopped!",
+        "video": "Stop video stream"
       }
     }
   },
