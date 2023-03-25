@@ -21,3 +21,15 @@ query UserExperimentCurrent {
     ...UserExperimentDashboard
   }
 }
+
+query CameraStatus($serverId: ID!) {
+  cameraStatus(server_id: $serverId) {
+    ...CameraStatus
+  }
+}
+
+query VideoStreamStatus($serverId: ID!) {
+  videoStreamStatus(server_id: $serverId) {
+    ...VideoStreamStatus
+  }
+}

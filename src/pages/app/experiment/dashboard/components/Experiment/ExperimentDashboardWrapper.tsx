@@ -18,11 +18,12 @@ window.Pusher = require('pusher-js')
 type Props = {
     experiments: ExperimentBasicFragment[]
     userExperimentCurrent?: UserExperimentDashboardFragment
+    cameraIsConnected?: boolean
 }
 
 export const DashboardContext = createContext<DashboardContent>({} as DashboardContent);
 
-const ExperimentDashboardWrapper: React.FC<Props> = ({experiments, userExperimentCurrent}: Props) => {
+const ExperimentDashboardWrapper: React.FC<Props> = ({experiments, userExperimentCurrent, cameraIsConnected}: Props) => {
     const {t} = useTranslation()
     const [running, setRunning] = useState(false)
     const [hasError, setHasError] = useState(false)
@@ -149,6 +150,7 @@ const ExperimentDashboardWrapper: React.FC<Props> = ({experiments, userExperimen
             experiments: experiments,
             userExperiment: userExperiment,
             data: data,
+            cameraIsConnected: cameraIsConnected,
             loading: loading,
             running: running,
             hasError: hasError,

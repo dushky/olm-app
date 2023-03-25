@@ -8,23 +8,27 @@ import {useLocalStorage} from "usehooks-ts";
 import useSize from "@react-hook/size";
 import {useTranslation} from "react-i18next";
 import {DashboardContext} from "./ExperimentDashboardWrapper";
+import ExperimentVideo from "./ExperimentVideo";
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 const defaultLayout: Layouts = {
     lg: [
         {i: "experiment-plot", x: 0, y: 0, w: 2, h: 9, minH: 9, maxH: 9, minW: 2} as Layout,
-        {i: "experiment-animation", x: 2, y: 0, w: 2, h: 7} as Layout,
-        {i: "experiment-form", x: 0, y: 9, w: 4, h: 6, minH: 6} as Layout,
+        {i: "experiment-animation", x: 2, y: 0, w: 2, h: 7, minH: 7} as Layout,
+        {i: "experiment-form", x: 2, y: 7, w: 2, h: 10, minH: 10} as Layout,
+        {i: "experiment-video", x: 0, y: 9, w: 2, h: 7, minH: 7, maxH: 7} as Layout,
     ],
     sm: [
         {i: "experiment-plot", x: 0, y: 0, w: 2, h: 9, minH: 9, maxH: 9, minW: 2} as Layout,
-        {i: "experiment-animation", x: 0, y: 9, w: 1, h: 7} as Layout,
-        {i: "experiment-form", x: 1, y: 9, w: 1, h: 10, minH: 6} as Layout,
+        {i: "experiment-animation", x: 0, y: 9, w: 1, h: 7, minH: 7} as Layout,
+        {i: "experiment-form", x: 1, y: 7, w: 1, h: 10, minH: 10} as Layout,
+        {i: "experiment-video", x: 0, y: 9, w: 1, h: 7, minH: 7} as Layout,
     ],
     xs: [
         {i: "experiment-plot", x: 0, y: 0, w: 1, h: 9, minH: 9, maxH: 9, minW: 1} as Layout,
-        {i: "experiment-animation", x: 0, y: 9, w: 1, h: 7} as Layout,
-        {i: "experiment-form", x: 0, y: 16, w: 1, h: 6, minH: 6} as Layout,
+        {i: "experiment-animation", x: 0, y: 9, w: 1, h: 7, minH: 7} as Layout,
+        {i: "experiment-form", x: 0, y: 23, w: 1, h: 6, minH: 6} as Layout,
+        {i: "experiment-video", x: 0, y: 16, w: 1, h: 7, minH: 7} as Layout,
     ]
 }
 
@@ -45,11 +49,13 @@ const ExperimentDashboard: React.FC<Props> = () => {
     const [savedExperimentFormMinimization, setSavedExperimentFormMinimization] = useLocalStorage<boolean>("experimentFormMinimization", false)
     const [savedExperimentPlotMinimization, setSavedExperimentPlotMinimization] = useLocalStorage<boolean>("experimentPlotMinimization", false)
     const [savedExperimentAnimationMinimization, setSavedExperimentAnimationMinimization] = useLocalStorage<boolean>("experimentAnimationMinimization", false)
+    const [savedExperimentVideoMinimization, setSavedExperimentVideoMinimization] = useLocalStorage<boolean>("experimentVideoMinimization", false)
     const [savedGridLayout, setSavedGridLayout] = useLocalStorage<Layouts>("gridLayout", defaultLayout)
     const experimentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
     const [, experimentFormHeight] = useSize(experimentRefs.current["experiment-form"])
     const [, experimentAnimationHeight] = useSize(experimentRefs.current["experiment-animation"])
     const [, experimentPlotHeight] = useSize(experimentRefs.current["experiment-plot"])
+    const [, experimentVideoHeight] = useSize(experimentRefs.current["experiment-video"])
     const isResizing = useRef(false)
     const breakpoint = useRef("")
 
@@ -57,7 +63,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
         if (!isResizing.current) {
             handleExperimentLayoutSizeChange()
         }
-    }, [experimentFormHeight, experimentAnimationHeight, experimentPlotHeight]);
+    }, [experimentFormHeight, experimentAnimationHeight, experimentPlotHeight, experimentVideoHeight]);
 
     const handleResize: ItemCallback = (layout,
                                         oldItem,
@@ -155,6 +161,19 @@ const ExperimentDashboard: React.FC<Props> = () => {
                     </div>
                 </Card>
             </div>
+            {dashboard.cameraIsConnected && (
+                <div key="experiment-video">
+                    <Card title={t("experiments.dashboard.video")}
+                          minimization={[savedExperimentVideoMinimization, setSavedExperimentVideoMinimization]}
+                          className={"border-top-primary border-top-5 overflow-hidden h-100"}>
+                        <div ref={element => experimentRefs.current["experiment-video"] = element}>
+                            <ExperimentVideo/>
+                        </div>
+                    </Card>
+                </div>
+            )
+            }
+
 
         </ResponsiveGridLayout>
     )

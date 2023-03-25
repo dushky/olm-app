@@ -43,6 +43,10 @@ fragment ExperimentBasic on Experiment {
     id
     name
   }
+  server {
+    id
+    api_domain
+  }
   experiment_commands {
     name
     arguments {
@@ -90,4 +94,19 @@ fragment UserExperimentDashboard on UserExperiment {
   filled
   created_at
   updated_at
+}
+
+fragment CameraStatus on CameraStatus {
+  isConnected
+  status
+}
+
+fragment VideoStreamStatus on VideoStreamStatus {
+  isRunning
+  status
+}
+
+fragment StopVideoStreamStatus on StopVideoStreamStatus {
+  isStopped
+  status
 }

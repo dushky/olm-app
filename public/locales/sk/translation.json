@@ -307,7 +307,8 @@
     "dashboard": {
       "graph": "Graf",
       "animation": "Animácia",
-      "commands": "Príkaz experimentu"
+      "commands": "Príkaz experimentu",
+      "video": "Video stream"
     },
     "columns": {
       "experiment": "Experiment",
@@ -318,12 +319,14 @@
       "run": {
         "btn": "Spustiť príkaz experimentu",
         "success": "Príkaz bol spustený!",
-        "error": "Príkaz nebolo možné spustiť!"
+        "error": "Príkaz nebolo možné spustiť!",
+        "video": "Spustiť video stream"
       },
       "stop": {
         "btn": "Zastaviť experiment",
         "success": "Expriment bol zastavený!",
-        "error": "Expriment nebolo možné zastaviť!"
+        "error": "Expriment nebolo možné zastaviť!",
+        "video": "Zastaviť video stream"
       }
     }
   },
