@@ -23,7 +23,7 @@ const ShowUserExperiment: React.FC = () => {
   const { appState } = useContext(AppStateContext)
   const { t } = useTranslation()
   const [userExperiment, setUserExperiment] = useState<UserExperimentExtendedFragment>()
-  const { data, loading, error } = useUserExperimentQuery({
+  const { data, loading, error, refetch } = useUserExperimentQuery({
     variables: {
       id,
     },
@@ -44,9 +44,11 @@ const ShowUserExperiment: React.FC = () => {
       title={t('actions.show')}
       className="mb-3"
       actions={
-        userExperiment?.result ? (
+        userExperiment?.filled? (
           <ShowUserExperimentDownload
-            url={userExperiment?.result}
+            url={(new URL(process.env.REACT_APP_API_ENDPOINT || 'https://olm-api.test/graphql')).origin
+                + '/api/export/user-experiment-result/' + userExperiment.id}
+            refetch={refetch}
             userName={userExperiment.user.name}
             deviceType={userExperiment.experiment.deviceType.name}
             createdAt={userExperiment.created_at}

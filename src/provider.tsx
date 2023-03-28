@@ -31,6 +31,7 @@ const initial = {
   appSetAuthUser: (authUser: AuthenticatedUserFragment) => { },
   appClearRefreshToken: () => { },
   appGetRefreshToken: (): string => '',
+  appGetAuthToken: (): { token: string; exp: Date | null } => { return {token: ' ' , exp: null} },
 }
 
 export const AppStateContext = createContext(initial)
@@ -204,6 +205,7 @@ function AppStateProvider({ children }: { children: ReactNode }) {
         appSetAuthUser,
         appClearRefreshToken,
         appGetRefreshToken,
+        appGetAuthToken,
       }}
     >
       <ApolloProvider client={client}>{children}</ApolloProvider>

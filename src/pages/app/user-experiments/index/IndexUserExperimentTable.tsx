@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, {useContext, useRef} from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { cilActionUndo, cilAlbum, cilCloudDownload, cilTrash } from '@coreui/icons'
@@ -15,10 +15,11 @@ import {
 import { ErrorNotifier, Pagination, SpinnerOverlay, Table } from 'components'
 import { can } from 'utils/permissions'
 import { AppStateContext } from 'provider'
+import {ApolloQueryResult} from "@apollo/client/core/types";
 
 interface Props {
   userExperiments: UserExperimentBasicFragment[]
-  refetch: () => void
+  refetch: (variables?: any) => Promise<ApolloQueryResult<any>>;
   paginatorInfo: PaginatorInfo
   currentPage: number
   setCurrentPage: (page: number) => void
@@ -31,11 +32,13 @@ const IndexUserExperimentTable: React.FC<Props> = ({
   currentPage,
   setCurrentPage,
 }: Props) => {
-  const { appState } = useContext(AppStateContext)
+  const { appState, appGetAuthToken } = useContext(AppStateContext)
   const { t } = useTranslation()
+  const refetched = useRef(false);
   const navigate = useNavigate()
   const [deleteUserExperimentMutation, deleteUserExperiment] = useDeleteUserExperimentMutation()
   const [restoreUserExperimentMutation, restoreUserExperiment] = useRestoreUserExperimentMutation()
+
 
   const checkPermission = (id: string, permission: string) => {
     const userExperiment = userExperiments.find((ue) => ue.id === id)
@@ -95,21 +98,40 @@ const IndexUserExperimentTable: React.FC<Props> = ({
 
     userExperiments.forEach((userExperiment) => {
       if (userExperiment.id === id) {
-        if (!userExperiment.result) {
-          toast.error(t('user_experiments.download.error'))
+        const apiUri = (new URL(process.env.REACT_APP_API_ENDPOINT || 'https://olm-api.test/graphql')).origin
+            + '/api/export/user-experiment-result/' + userExperiment.id;
+
+        if (!userExperiment.filled) {
+          toast.error(t('user_experiments.processing'))
           return
         }
-        fetch(userExperiment.result)
+
+        fetch(apiUri, {
+          headers: {
+            'Content-Type': 'text/csv',
+            authorization: appGetAuthToken().token ? `Bearer ${appGetAuthToken().token}` : '',
+          }
+        })
           .then((response) => {
-            response.blob().then((blob) => {
-              const fileExt = userExperiment.result?.split('.').pop()
-              const url = window.URL.createObjectURL(blob)
-              let a = document.createElement('a')
-              a.href = url
-              a.download = `${userExperiment.user.name}_${userExperiment.experiment.deviceType.name}_${userExperiment.created_at}.${fileExt}`
-              a.click()
-              toast.success(t('user_experiments.download.success'))
-            })
+            if (response.ok) {
+              response.blob().then((blob) => {
+                const url = window.URL.createObjectURL(blob)
+                let a = document.createElement('a')
+                a.href = url
+                a.download = `${userExperiment.user.name}_${userExperiment.experiment.deviceType.name}_${userExperiment.created_at}.csv`
+                a.click()
+                toast.success(t('user_experiments.download.success'))
+              })
+            } else {
+              if (!refetched.current) {
+                refetch().then(() => {
+                  handleDownloadResult(id)
+                }).finally(() => {refetched.current = true});
+              } else {
+                toast.error(t('actions.error.not-authorized'))
+              }
+            }
+
           })
           .catch(() => {
             toast.error(t('user_experiments.download.error'))
