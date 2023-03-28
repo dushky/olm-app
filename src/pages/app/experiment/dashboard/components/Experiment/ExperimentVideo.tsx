@@ -31,8 +31,6 @@ const ExperimentVideo: React.FC<Props> = () => {
         }
     );
 
-    console.log(videoStreamStatus.data?.videoStreamStatus)
-
     const [startVideoStreamMutation, startVideoStreamMutationVariables] = useStartVideoStreamMutation();
     const [stopVideoStreamMutation, stopVideoStreamMutationVariables] = useStopVideoStreamMutation();
 
