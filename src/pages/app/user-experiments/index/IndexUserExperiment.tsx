@@ -48,7 +48,6 @@ const IndexUserExperiment: React.FC = () => {
     }
   }, [data])
 
-  if (error) return <ErrorNotifier error={error} />
 
   return (
     <Card
@@ -71,7 +70,8 @@ const IndexUserExperiment: React.FC = () => {
           />
         </div>
         <hr />
-        {userExperiments && paginatorInfo && (
+        { error &&  <ErrorNotifier error={error} />}
+        {userExperiments && paginatorInfo && !error && (
           <IndexUserExperimentTable
             userExperiments={userExperiments}
             paginatorInfo={paginatorInfo}
