@@ -68,7 +68,16 @@ const ExperimentPlot: React.FC<Props> = () => {
                     showDefaultVisibility.current = false
                     return true
                 }}
-                layout={{autosize: true,}}
+                layout={{
+                    autosize: true,
+                    margin: {
+                        l: 40,
+                        r: 0,
+                        b: 20,
+                        t: 20,
+                        pad: 0,
+                    }
+                }}
                 useResizeHandler={true}
                 style={{width: '100%'}}
             />
