@@ -165,6 +165,9 @@ const ExperimentForm: React.FC<Props> = ({
   }, [getExperimentInput, getSchemaInput, selectedCommand, hasError])
 
   useEffect(() => {
+    if (!selectedExperiment?.has_schema){
+      setSelectedSchema(undefined);
+    }
     replaceExperimentInput()
   }, [selectedExperiment, selectedSchema, replaceExperimentInput])
 
@@ -287,6 +290,7 @@ const ExperimentForm: React.FC<Props> = ({
                       setSelectedSchema(schemas?.find((schema) => schema.id === event.target.value))
                     }}
                   >
+                    <option value={undefined}></option>
                     {schemas?.map((schema: ExperimentSchemaFragment) => (
                       <option value={schema.id} key={schema.id}>
                         {schema.name}
