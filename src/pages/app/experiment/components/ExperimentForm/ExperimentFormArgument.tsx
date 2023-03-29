@@ -58,6 +58,7 @@ const ExperimentFormArgument: React.FC<Props> = ({
         type="text"
         id={argument.name}
         value={value}
+        required={true}
         placeholder={argument.label}
         // required
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
