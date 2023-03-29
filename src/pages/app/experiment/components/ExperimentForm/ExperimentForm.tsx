@@ -175,8 +175,8 @@ const ExperimentForm: React.FC<Props> = ({
       !selectedCommand ||
       !experimentInput ||
       !selectedExperiment ||
-      (selectedExperiment?.has_schema && !selectedExperiment)
-    )
+      (selectedExperiment?.has_schema && !selectedSchema)
+    ) {
       return
 
     handleSubmitForm({
