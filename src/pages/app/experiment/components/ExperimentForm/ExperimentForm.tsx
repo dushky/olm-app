@@ -279,6 +279,7 @@ const ExperimentForm: React.FC<Props> = ({
                   <CFormSelect
                     aria-label="schema"
                     id="schema"
+                    required={true}
                     disabled={!!userExperimentCurrent}
                     value={selectedSchema?.id}
                     onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
