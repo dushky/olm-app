@@ -178,6 +178,7 @@ const ExperimentForm: React.FC<Props> = ({
       (selectedExperiment?.has_schema && !selectedSchema)
     ) {
       return
+    }
 
     handleSubmitForm({
       experimentId: selectedExperiment.id,
