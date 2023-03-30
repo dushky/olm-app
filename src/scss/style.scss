@@ -33,3 +33,7 @@ img {
   width: 100%;
   overflow: hidden;
 }
+
+.is-draggable .draggable-header {
+  cursor: move;
+}

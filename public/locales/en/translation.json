@@ -310,7 +310,15 @@
       "graph": "Graph",
       "animation": "Animation",
       "commands": "Experiment command",
-      "video": "Video stream"
+      "video": "Video stream",
+      "info" : {
+        "popover" : "How to use dashboard?",
+        "title": "Dashboard usage",
+        "resize": "Windows can be enlarged and reduced. Hovering the mouse over the lower right corner will display a resizing cursor. By pressing the mouse, the corner is attached and the window can then be resized. During resizing, a blue rectangle is displayed, which indicates how wide the window will be after resizing. The height is subsequently added to the content.",
+        "move": "Windows can be moved within the dashboard. Hovering the mouse over the header of the window will display the movement cursor. Pressing the mouse will catch the window and then it can be moved around the dashboard. During moving, a blue rectangle is displayed indicating the place where the window will be after the end of moving.",
+        "minimize": "Windows can be minimized by clicking the minimize icon in the upper right corner of the window.",
+        "saving": "All modifications with dashboard windows are stored within this PC and browser."
+      }
     },
     "columns": {
       "experiment": "Experiment",

@@ -56,7 +56,7 @@
 
   "sidebar": {
     "lab": "Laboratórium",
-    "dashboard": "Kontrolný panel",
+    "dashboard": "Dashboard",
     "queue": "Dávkovanie experimentov",
     "reservations": "Rezervácie",
     "settings": "Nastavenia",
@@ -308,7 +308,15 @@
       "graph": "Graf",
       "animation": "Animácia",
       "commands": "Príkaz experimentu",
-      "video": "Video stream"
+      "video": "Video stream",
+      "info" : {
+        "popover" : "Ako používať dashboard?",
+        "title": "Používanie dashboardu",
+        "resize": "Okná je možné zväčšovať a zmenšovať. Prejdením myšou na pravý dolný roh sa zobrazí kurzor zmeny veľkosti.Stlačením myši sa roh prichytí a následne je možné oknu meniť veľkosť. Počas zmeny veľkosti sa zobrazuje modrý obdlžník, ktorý indikuje akú širku bude mať okno po zmene. Výška je následne dopočítaná vzhľadom ku obsahu.",
+        "move": "Okná je možné premiestňovať v rámci dashboardu. Prejdením myšou na hlavičku okna sa zobrazí kurzor pohybu.Stlačením myši sa okno prichytí a následne je možné ho presúvať po dashboarde. Počas presúvania sa zobrazuje modrý obdĺžnik indikujúci miesto kde okno bude po skončení presúvania.",
+        "minimize": "Okná je možné minimalizovať kliknutím na ikonu minimalizácie v pravom hornom rohu okna.",
+        "saving": "Všetky modifikácie s oknami dashboardu sú uložené v rámci tohto PC a prehliadača."
+      }
     },
     "columns": {
       "experiment": "Experiment",

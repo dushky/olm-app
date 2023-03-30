@@ -5,7 +5,7 @@ import {CCard, CCardBody, CCardHeader} from '@coreui/react'
 interface Props {
     children?: JSX.Element | string | (JSX.Element | string)[]
     icon?: any
-    title: string
+    title: React.ReactNode
     actions?: JSX.Element | JSX.Element[]
     className?: string,
     minimization?: [boolean, ((isMinimized: boolean) => void) | undefined]

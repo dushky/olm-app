@@ -128,7 +128,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             <div key="experiment-plot">
                 <Card title={t("experiments.dashboard.graph")}
                       minimization={[savedExperimentPlotMinimization, setSavedExperimentPlotMinimization]}
-                      className={"border-top-primary border-top-5 overflow-hidden h-100"}>
+                      className={"border-top-primary border-top-5 overflow-hidden h-100 is-draggable"}>
                     <div ref={element => experimentRefs.current["experiment-plot"] = element}>
                         <ExperimentPlot/>
                     </div>
@@ -138,7 +138,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
                 <div key="experiment-animation">
                     <Card title={t("experiments.dashboard.animation")}
                           minimization={[savedExperimentAnimationMinimization, setSavedExperimentAnimationMinimization]}
-                          className={"border-top-primary border-top-5 overflow-hidden h-100"}>
+                          className={"border-top-primary border-top-5 overflow-hidden h-100 is-draggable"}>
                         <div ref={element => experimentRefs.current["experiment-animation"] = element}>
                             <ExperimentAnimation/>
                         </div>
@@ -148,7 +148,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
             <div key="experiment-form">
                 <Card title={t("experiments.dashboard.commands")}
                       minimization={[savedExperimentFormMinimization, setSavedExperimentFormMinimization]}
-                      className={"border-top-primary border-top-5  overflow-hidden h-100"}>
+                      className={"border-top-primary border-top-5  overflow-hidden h-100 is-draggable"}>
                     <div ref={element => experimentRefs.current["experiment-form"] = element}>
                         <ExperimentForm
                             experiments={dashboard.experiments}
@@ -165,7 +165,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
                 <div key="experiment-video">
                     <Card title={t("experiments.dashboard.video")}
                           minimization={[savedExperimentVideoMinimization, setSavedExperimentVideoMinimization]}
-                          className={"border-top-primary border-top-5 overflow-hidden h-100"}>
+                          className={"border-top-primary border-top-5 overflow-hidden h-100 is-draggable"}>
                         <div ref={element => experimentRefs.current["experiment-video"] = element}>
                             <ExperimentVideo/>
                         </div>
