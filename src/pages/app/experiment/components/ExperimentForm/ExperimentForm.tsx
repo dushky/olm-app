@@ -165,6 +165,9 @@ const ExperimentForm: React.FC<Props> = ({
   }, [getExperimentInput, getSchemaInput, selectedCommand, hasError])
 
   useEffect(() => {
+    if (!selectedExperiment?.has_schema){
+      setSelectedSchema(undefined);
+    }
     replaceExperimentInput()
   }, [selectedExperiment, selectedSchema, replaceExperimentInput])
 
@@ -175,9 +178,10 @@ const ExperimentForm: React.FC<Props> = ({
       !selectedCommand ||
       !experimentInput ||
       !selectedExperiment ||
-      (selectedExperiment?.has_schema && !selectedExperiment)
-    )
+      (selectedExperiment?.has_schema && !selectedSchema)
+    ) {
       return
+    }
 
     handleSubmitForm({
       experimentId: selectedExperiment.id,
@@ -279,12 +283,14 @@ const ExperimentForm: React.FC<Props> = ({
                   <CFormSelect
                     aria-label="schema"
                     id="schema"
+                    required={true}
                     disabled={!!userExperimentCurrent}
                     value={selectedSchema?.id}
                     onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
                       setSelectedSchema(schemas?.find((schema) => schema.id === event.target.value))
                     }}
                   >
+                    <option value={undefined}></option>
                     {schemas?.map((schema: ExperimentSchemaFragment) => (
                       <option value={schema.id} key={schema.id}>
                         {schema.name}
