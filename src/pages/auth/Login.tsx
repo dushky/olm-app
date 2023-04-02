@@ -22,6 +22,7 @@ import { useLoginMutation, LoginInput } from '__generated__/graphql'
 import { AppStateContext } from 'provider'
 import { ErrorNotifier, SpinnerOverlay } from 'components'
 import GoogleAuth from './GoogleAuth'
+import {LdapLogin} from "./components";
 
 const Login: React.FC = () => {
   const { t } = useTranslation()
@@ -67,11 +68,12 @@ const Login: React.FC = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
+                  <h1>{t('login.title')}</h1>
+                  <p className="text-medium-emphasis">{t('login.description')}</p>
+                  <GoogleAuth />
+                  <LdapLogin/>
+                  <hr />
                   <CForm onSubmit={handleLogin}>
-                    <h1>{t('login.title')}</h1>
-                    <p className="text-medium-emphasis">{t('login.description')}</p>
-                    <GoogleAuth />
-                    <hr />
                     <ErrorNotifier error={error} />
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
