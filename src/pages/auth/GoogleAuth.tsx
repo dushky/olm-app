@@ -4,14 +4,22 @@ import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from 're
 import { AppStateContext } from 'provider'
 import { useSocialLoginMutation } from '__generated__/graphql'
 import { SpinnerOverlay } from 'components'
+import {toast} from "react-toast";
+import {useTranslation} from "react-i18next";
 
 const GoogleAuth: React.FC = () => {
   const [socialLogin, { loading }] = useSocialLoginMutation()
   const { appSetLogin, appSetRefreshToken } = useContext(AppStateContext)
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const responseGoogle = async (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
     if (!('accessToken' in response)) return
+
+    if (response.profileObj.email.endsWith('stuba.sk')) {
+      toast.error(t('login.use-stuba-warning'))
+      return;
+    }
 
     try {
       const { data } = await socialLogin({
