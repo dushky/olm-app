@@ -16,6 +16,18 @@ mutation Login($loginInput: LoginInput) {
   }
 }
 
+mutation LdapLogin($ldapLoginInput: LdapLoginInput) {
+  ldapLogin(input: $ldapLoginInput) {
+    access_token
+    refresh_token
+    expires_in
+    token_type
+    user {
+      ...AuthenticatedUser
+    }
+  }
+}
+
 mutation RefreshToken($refreshTokenInput: RefreshTokenInput) {
   refreshToken(input: $refreshTokenInput) {
     access_token
