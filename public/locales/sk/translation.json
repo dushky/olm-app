@@ -8,8 +8,11 @@
   "login": {
     "title": "Prihlásenie",
     "description": "Prihláste sa do svojho účtu",
+    "ldap-description": "Prihláste sa prostredníctvom svojho STUBU účtu s AIS prihlasovacími údajmi",
     "forgot-password": "Zabudnuté heslo?",
+    "use-stuba-warning": "Pre prihlásenie cez stuba.sk použite STUBA LDAP prihlásenie",
     "form": {
+      "user-name": "Prihlasovacie meno",
       "email": "E-mail",
       "password": "Heslo",
       "button": "Prihlásiť"

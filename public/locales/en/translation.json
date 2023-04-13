@@ -8,8 +8,11 @@
   "login": {
     "title": "Login",
     "description": "Sign In to your account",
+    "ldap-description": "Sign In to trough your STUBA account with AIS credentials",
     "forgot-password": "Forgot password?",
+    "use-stuba-warning": "For stuba.sk login use STUBA LDAP Sign In",
     "form": {
+      "user-name": "User name",
       "email": "E-mail",
       "password": "Password",
       "button": "Login"

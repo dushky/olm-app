@@ -19,6 +19,7 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import { RegisterInput, useRegisterMutation } from '__generated__/graphql'
 import { ErrorNotifier, SpinnerOverlay } from 'components'
 import GoogleAuth from './GoogleAuth'
+import {LdapLogin} from "./components";
 
 const Register: React.FC = () => {
   const { t } = useTranslation()
@@ -53,11 +54,13 @@ const Register: React.FC = () => {
           <CCol md={9} lg={7} xl={6}>
             <CCard className="mx-4">
               <CCardBody className="p-4">
+                <h1>{t('register.title')}</h1>
+                <p className="text-medium-emphasis">{t('register.description')}</p>
+                <GoogleAuth />
+                <br/>
+                <LdapLogin />
+                <hr />
                 <CForm onSubmit={handleRegister}>
-                  <h1>{t('register.title')}</h1>
-                  <p className="text-medium-emphasis">{t('register.description')}</p>
-                  <GoogleAuth />
-                  <hr />
                   <ErrorNotifier error={error} />
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
