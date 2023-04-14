@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import PlotlyChart from 'react-plotly.js'
 import { PlotType } from 'plotly.js'
+import {ExperimentOutputArguments} from "../../../../__generated__/graphql";
 
 type graphData = { name: string; data: Array<number> }[]
 
 type Props = {
   data: graphData
   title: string
+  outputArguments: ExperimentOutputArguments[]
+  software: string
 }
 
-const ShowUserExperimentGraph: React.FC<Props> = ({ data, title }: Props) => {
+const ShowUserExperimentGraph: React.FC<Props> = ({ data, title, outputArguments, software }: Props) => {
   const { t } = useTranslation()
   const [graphData, setGraphData] = useState<Plotly.Data[]>()
 
@@ -28,7 +31,9 @@ const ShowUserExperimentGraph: React.FC<Props> = ({ data, title }: Props) => {
         x: time,
         y: d.data,
         type: 'scatter' as PlotType,
-        visible: 'legendonly',
+        visible: outputArguments
+            .find((outputArgument) => outputArgument.title === d.name)
+            ?.defaultVisibilityFor?.includes(software) ?? 'legendonly',
       } as Plotly.Data
     })
 

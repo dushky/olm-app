@@ -17,6 +17,11 @@ fragment UserExperimentBasic on UserExperiment {
     software {
       name
     }
+    output_arguments {
+      name
+      title
+      defaultVisibilityFor
+    }
   }
   created_at
   deleted_at

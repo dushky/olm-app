@@ -78,6 +78,8 @@ const ShowUserExperiment: React.FC = () => {
         {userExperiment?.output && (
           <ShowUserExperimentGraph
             data={userExperiment.output}
+            outputArguments={userExperiment.experiment.output_arguments}
+            software={userExperiment.experiment.software.name}
             title={formatExperimentName(userExperiment)}
           />
         )}
