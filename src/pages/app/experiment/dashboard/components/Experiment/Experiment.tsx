@@ -31,7 +31,7 @@ const Experiment: React.FC<Props> = ({ device }: Props) => {
   const cameraStatus = useCameraStatusQuery({
     notifyOnNetworkStatusChange: true,
     variables: {
-      serverId: device.server.id,
+      deviceId: device.id,
     },
   });
 

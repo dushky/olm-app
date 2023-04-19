@@ -10,14 +10,14 @@ mutation QueueUserExperiment($queueUserExperimentInput: QueueUserExperimentInput
   }
 }
 
-mutation StartVideoStream($serverId: ID!) {
-  startVideoStream(server_id: $serverId) {
+mutation StartVideoStream($deviceId: ID!) {
+  startVideoStream(device_id: $deviceId) {
     ...VideoStreamStatus
   }
 }
 
-mutation StopVideoStream($serverId: ID!) {
-  stopVideoStream(server_id: $serverId) {
+mutation StopVideoStream($deviceId: ID!) {
+  stopVideoStream(device_id: $deviceId) {
     ...StopVideoStreamStatus
   }
 }

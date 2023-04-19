@@ -22,11 +22,11 @@ const ExperimentVideo: React.FC<Props> = () => {
     const [loading, setLoading] = useState(false);
     const [activeStream, setActiveStream] = useState(false);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
-    const streamUrl = useRef<string>(`https://${dashboard.experiments[0].server?.api_domain}:8080/hls/experiment.m3u8`);
+    const streamUrl = useRef<string>(`https://${dashboard.experiments[0].server?.api_domain}:8080/hls/${dashboard.experiments[0].device?.name}.m3u8`);
     const videoStreamStatus = useVideoStreamStatusQuery({
             fetchPolicy: "network-only",
             variables: {
-                serverId: dashboard.experiments[0].server?.id || "0",
+                deviceId: dashboard.experiments[0].device?.id || "0",
             },
         }
     );
@@ -38,7 +38,7 @@ const ExperimentVideo: React.FC<Props> = () => {
         setLoading(true);
         await startVideoStreamMutation({
             variables: {
-                serverId: dashboard.experiments[0].server?.id || "0",
+                deviceId: dashboard.experiments[0].device?.id || "0",
             }
         }).then(
             (values) => {
@@ -63,7 +63,7 @@ const ExperimentVideo: React.FC<Props> = () => {
         setLoading(true);
         await stopVideoStreamMutation({
             variables: {
-                serverId: dashboard.experiments[0].server?.id || "0",
+                deviceId: dashboard.experiments[0].device?.id || "0",
             }
         }).then(
             (values) => {

@@ -22,14 +22,14 @@ query UserExperimentCurrent {
   }
 }
 
-query CameraStatus($serverId: ID!) {
-  cameraStatus(server_id: $serverId) {
+query CameraStatus($deviceId: ID!) {
+  cameraStatus(device_id: $deviceId) {
     ...CameraStatus
   }
 }
 
-query VideoStreamStatus($serverId: ID!) {
-  videoStreamStatus(server_id: $serverId) {
+query VideoStreamStatus($deviceId: ID!) {
+  videoStreamStatus(device_id: $deviceId) {
     ...VideoStreamStatus
   }
 }
