@@ -10,6 +10,10 @@ query Schema($id: ID!) {
   }
 }
 
+query AvailableSchemaTypes {
+  availableSchemaTypes
+}
+
 query DeviceTypesAndSoftware {
   deviceTypes {
     id

@@ -15,10 +15,10 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toast'
 
 import {
-  ArgumentInput,
-  CreateSchemaInput,
-  useCreateSchemaMutation,
-  useDeviceTypesAndSoftwareQuery,
+    ArgumentInput,
+    CreateSchemaInput, useAvailableSchemaTypesQuery,
+    useCreateSchemaMutation,
+    useDeviceTypesAndSoftwareQuery,
 } from '__generated__/graphql'
 import { SchemaFormArguments } from '../components'
 
@@ -27,9 +27,11 @@ const CreateSchemaForm: React.FC = () => {
   const navigate = useNavigate()
 
   const deviceTypesAndSoftware = useDeviceTypesAndSoftwareQuery()
+  const availableSchemaTypes = useAvailableSchemaTypesQuery()
 
   const [createSchemaInput, setCreateSchemaInput] = useState<CreateSchemaInput>({
     name: '',
+    type: '-1',
     device_type_id: deviceTypesAndSoftware.data?.deviceTypes[0].id || '-1',
     software_id: deviceTypesAndSoftware.data?.software[0].id || '-1',
     note: undefined,
@@ -77,7 +79,25 @@ const CreateSchemaForm: React.FC = () => {
       </CFormFloating>
 
       <CRow>
-        <CCol sm={6}>
+        <CCol md={4}>
+          <CFormLabel>{t('schemas.columns.schema_type')}</CFormLabel>
+          <CFormSelect
+              className="mb-3"
+              value={createSchemaInput.type}
+              onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+                event.preventDefault()
+                setCreateSchemaInput({ ...createSchemaInput, type: event.target.value })
+              }}
+          >
+            <option value="-1"></option>
+            {availableSchemaTypes.data?.availableSchemaTypes.map((schemaType) => (
+                <option value={schemaType} key={schemaType}>
+                  {t('schemas.types.' + schemaType)}
+                </option>
+            ))}
+          </CFormSelect>
+        </CCol>
+        <CCol md={4}>
           <CFormLabel>{t('schemas.columns.device_type')}</CFormLabel>
           <CFormSelect
             className="mb-3"
@@ -87,7 +107,7 @@ const CreateSchemaForm: React.FC = () => {
               setCreateSchemaInput({ ...createSchemaInput, device_type_id: event.target.value })
             }}
           >
-            <option value="-1">select device type</option>
+            <option value="-1"></option>
             {deviceTypesAndSoftware.data?.deviceTypes.map((deviceType) => (
               <option value={deviceType.id} key={deviceType.id}>
                 {deviceType.name}
@@ -95,7 +115,7 @@ const CreateSchemaForm: React.FC = () => {
             ))}
           </CFormSelect>
         </CCol>
-        <CCol sm={6}>
+        <CCol md={4}>
           <CFormLabel>{t('schemas.columns.software')}</CFormLabel>
           <CFormSelect
             className="mb-3"
@@ -105,7 +125,7 @@ const CreateSchemaForm: React.FC = () => {
               setCreateSchemaInput({ ...createSchemaInput, software_id: event.target.value })
             }}
           >
-            <option value="-1">select software</option>
+            <option value="-1"></option>
             {deviceTypesAndSoftware.data?.software.map((software) => (
               <option value={software.id} key={software.id}>
                 {software.name}

@@ -34,6 +34,7 @@ const formatSchemaInput = (schema: SchemaExtendedFragment) => {
   return {
     id: schema.id,
     name: schema.name,
+    type: schema.type,
     device_type_id: schema.deviceType.id,
     software_id: schema.software.id,
     note: schema.note,
@@ -136,7 +137,25 @@ const EditSchemaForm = ({ schema }: Props) => {
         </CFormFloating>
 
         <CRow>
-          <CCol sm={6}>
+          <CCol sm={4}>
+            <CFormLabel>{t('schemas.columns.schema_type')}</CFormLabel>
+            <CFormSelect
+                className="mb-3"
+                value={updateSchemaInput.type}
+                onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+                  event.preventDefault()
+                  setUpdateSchemaInput({ ...updateSchemaInput, type: event.target.value })
+                }}
+            >
+              <option value="-1"></option>
+              {schema.availableTypes.map((schemaType) => (
+                  <option value={schemaType} key={schemaType}>
+                    {t('schemas.types.' + schemaType)}
+                  </option>
+              ))}
+            </CFormSelect>
+          </CCol>
+          <CCol sm={4}>
             <CFormLabel>{t('schemas.columns.device_type')}</CFormLabel>
             <CFormSelect
               className="mb-3"
@@ -146,7 +165,7 @@ const EditSchemaForm = ({ schema }: Props) => {
                 setUpdateSchemaInput({ ...updateSchemaInput, device_type_id: event.target.value })
               }}
             >
-              <option value="-1">select device type</option>
+              <option value="-1"></option>
               {deviceTypesAndSoftware.data?.deviceTypes.map((deviceType) => (
                 <option value={deviceType.id} key={deviceType.id}>
                   {deviceType.name}
@@ -154,7 +173,7 @@ const EditSchemaForm = ({ schema }: Props) => {
               ))}
             </CFormSelect>
           </CCol>
-          <CCol sm={6}>
+          <CCol sm={4}>
             <CFormLabel>{t('schemas.columns.software')}</CFormLabel>
             <CFormSelect
               className="mb-3"
@@ -164,7 +183,7 @@ const EditSchemaForm = ({ schema }: Props) => {
                 setUpdateSchemaInput({ ...updateSchemaInput, software_id: event.target.value })
               }}
             >
-              <option value="-1">select software</option>
+              <option value="-1"></option>
               {deviceTypesAndSoftware.data?.software.map((software) => (
                 <option value={software.id} key={software.id}>
                   {software.name}

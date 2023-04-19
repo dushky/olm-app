@@ -251,9 +251,14 @@
     "options": "Možnosti",
     "add_argument": "Pridať argument",
     "add_option": "Pridať možnosť",
+    "types": {
+      "control": "Regulačná",
+      "ident": "Identifikačná"
+    },
     "columns": {
       "id": "ID",
       "name": "Názov",
+      "schema_type": "Typ schémy",
       "device_type": "Typ zariadenia",
       "software": "Softvér",
       "note": "Poznámka",

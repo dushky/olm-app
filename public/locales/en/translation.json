@@ -251,9 +251,14 @@
     "options": "Options",
     "add_argument": "Add argument",
     "add_option": "Add option",
+    "types": {
+      "control": "Regulatory",
+      "ident": "Identification"
+    },
     "columns": {
       "id": "ID",
       "name": "Name",
+      "schema_type": "Schema type",
       "device_type": "Device type",
       "software": "Software",
       "note": "Note",
