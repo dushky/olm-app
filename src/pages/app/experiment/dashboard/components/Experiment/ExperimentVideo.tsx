@@ -74,8 +74,9 @@ const ExperimentVideo: React.FC<Props> = () => {
         ).catch((reason: Error) => {
             toast.error(reason.message)
         }).finally(() => {
-            videoStreamStatus.refetch();
-            setLoading(false);
+            videoStreamStatus.refetch().finally(() => {
+                setLoading(false);
+            });
         })
     }
 
