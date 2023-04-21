@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
     )
 
   return (
-      <CContainer xxl>
+      <CContainer fluid>
         <Card title={
             <div className="d-flex w-100 align-items-center justify-content-between">
                 {t('experiments.title')}

@@ -253,7 +253,7 @@ const ExperimentForm: React.FC<Props> = ({
         {loading && <SpinnerOverlay transparent={true} />}
         {error && <ErrorNotifier error={error} />}
         <CRow>
-          <CCol style={{ minWidth: "10rem"}}>
+          <CCol style={{flex: "1 0"}}>
             <CFormLabel className="d-block">{t('experiments.columns.experiment')}</CFormLabel>
             <CFormSelect
               aria-label="experiment"
@@ -314,7 +314,7 @@ const ExperimentForm: React.FC<Props> = ({
             )}
           </CCol>
 
-          <CCol style={{minWidth: "10rem"}}>
+          <CCol style={{flex: "2 0"}}>
             <CFormLabel className="d-block">{t('experiments.columns.command')}</CFormLabel>
             <CFormSelect
               aria-label="command"

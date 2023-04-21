@@ -60,7 +60,7 @@ const ExperimentPlot: React.FC<Props> = () => {
     }
 
     return (
-        <div className="position-relative">
+        <div className="position-relative h-100 pb-3">
             {loading && <SpinnerOverlay transparent={true} className="position-absolute" style={{zIndex: 999}}/>}
             <PlotlyChart
                 data={graphData}
@@ -79,7 +79,7 @@ const ExperimentPlot: React.FC<Props> = () => {
                     }
                 }}
                 useResizeHandler={true}
-                style={{width: '100%'}}
+                style={{width: '100%', height: "100%"}}
             />
         </div>
     )

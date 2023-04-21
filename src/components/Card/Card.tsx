@@ -35,7 +35,7 @@ const Card: React.FC<Props> = ({children, icon, title, actions, className = '', 
                 {setIsMinimized &&
                     <CIcon style={{cursor: "pointer"}} className="ms-3" content={cilWindowMinimize} onClick={handleMinimize}/>}
             </CCardHeader>
-            <CCardBody style={ isMinimized ? {display: "none"} : {}}>{children}</CCardBody>
+            <CCardBody className="h-100" style={ isMinimized ? {display: "none"} : {}}>{children}</CCardBody>
         </CCard>
     )
 }

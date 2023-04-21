@@ -12,23 +12,29 @@ import ExperimentVideo from "./ExperimentVideo";
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 const defaultLayout: Layouts = {
+    xl: [
+        {i: "experiment-plot", x: 0, y: 0, w: 6, h: 9, minW: 3, minH: 3} as Layout,
+        {i: "experiment-animation", x: 11, y: 7, w: 5, h: 5, minW: 3, minH: 5, maxH: 5} as Layout,
+        {i: "experiment-form", x: 6, y: 0, w: 10, h: 7, minW: 3, minH: 7, maxH: 7} as Layout,
+        {i: "experiment-video", x: 6, y: 7, w: 5, h: 7, minW: 3, minH: 7, maxH: 7} as Layout,
+    ],
     lg: [
-        {i: "experiment-plot", x: 0, y: 0, w: 2, h: 9, minH: 9, maxH: 9, minW: 2} as Layout,
-        {i: "experiment-animation", x: 2, y: 0, w: 2, h: 7, minH: 7} as Layout,
-        {i: "experiment-form", x: 2, y: 7, w: 2, h: 10, minH: 10} as Layout,
-        {i: "experiment-video", x: 0, y: 9, w: 2, h: 7, minH: 7, maxH: 7} as Layout,
+        {i: "experiment-plot", x: 0, y: 0, w: 6, h: 9, minW: 3, minH: 3} as Layout,
+        {i: "experiment-animation", x: 6, y: 0, w: 6, h: 6, minW: 3, minH: 6, maxH: 6} as Layout,
+        {i: "experiment-form", x: 6, y: 6, w: 6, h: 10, minW: 3, minH: 10, maxH: 10} as Layout,
+        {i: "experiment-video", x: 0, y: 9, w: 6, h: 8, minW: 3, minH: 8, maxH: 8} as Layout,
     ],
     sm: [
-        {i: "experiment-plot", x: 0, y: 0, w: 2, h: 9, minH: 9, maxH: 9, minW: 2} as Layout,
-        {i: "experiment-animation", x: 0, y: 9, w: 1, h: 7, minH: 7} as Layout,
-        {i: "experiment-form", x: 1, y: 7, w: 1, h: 10, minH: 10} as Layout,
-        {i: "experiment-video", x: 0, y: 9, w: 1, h: 7, minH: 7} as Layout,
+        {i: "experiment-plot", x: 0, y: 0, w: 2, h: 9, minW: 2, minH: 3} as Layout,
+        {i: "experiment-animation", x: 2, y: 0, w: 2, h: 4, minW: 2, minH: 4, maxH: 4} as Layout,
+        {i: "experiment-form", x: 2, y: 0, w: 2, h: 11, minW: 2, minH: 11, maxH: 11} as Layout,
+        {i: "experiment-video", x: 0, y: 9, w: 2, h: 5, minW: 2, minH: 3, maxH: 3} as Layout,
     ],
     xs: [
-        {i: "experiment-plot", x: 0, y: 0, w: 1, h: 9, minH: 9, maxH: 9, minW: 1} as Layout,
-        {i: "experiment-animation", x: 0, y: 9, w: 1, h: 7, minH: 7} as Layout,
-        {i: "experiment-form", x: 0, y: 23, w: 1, h: 6, minH: 6} as Layout,
-        {i: "experiment-video", x: 0, y: 16, w: 1, h: 7, minH: 7} as Layout,
+        {i: "experiment-plot", x: 0, y: 0, w: 1, h: 9, minW: 1, minH: 2} as Layout,
+        {i: "experiment-animation", x: 0, y: 25, w: 1, h: 6, minW: 1, minH: 6, maxH: 6} as Layout,
+        {i: "experiment-form", x: 0, y: 9, w: 1, h: 8, minW: 1, minH: 8, maxH: 8} as Layout,
+        {i: "experiment-video", x: 0, y: 32, w: 1, h: 7, minW: 1, minH: 7, maxH: 7} as Layout,
     ]
 }
 
@@ -71,12 +77,16 @@ const ExperimentDashboard: React.FC<Props> = () => {
                                         placeholder) => {
         let neededRows: number = countNeededRows(experimentRefs.current[newItem.i]?.offsetHeight)
         newItem.h = neededRows
-        newItem.minH = neededRows
-        newItem.maxH = neededRows
+        if (oldItem.i !== 'experiment-plot') {
+            newItem.minH = neededRows
+            newItem.maxH = neededRows
+        }
         if (placeholder) {
             placeholder.h = neededRows
-            placeholder.minH = neededRows
-            placeholder.maxH = neededRows
+            if (oldItem.i !== 'experiment-plot') {
+                placeholder.minH = neededRows
+                placeholder.maxH = neededRows
+            }
         }
         window.dispatchEvent(new Event('resize'));
     }
@@ -94,7 +104,6 @@ const ExperimentDashboard: React.FC<Props> = () => {
     }
 
     const handleExperimentLayoutSizeChange = () => {
-
         setSavedGridLayout((savedGridLayout) => {
             const newLayouts: Layouts = {}
             Object.keys(savedGridLayout).forEach((breakpoint: string) => {
@@ -102,7 +111,10 @@ const ExperimentDashboard: React.FC<Props> = () => {
                     const newLayout = {...layout} as Layout
                     const neededRows: number = countNeededRows(experimentRefs.current[newLayout.i]?.offsetHeight)
                     newLayout.h = neededRows
-                    newLayout.minH = neededRows
+                    if (newLayout.i !== 'experiment-plot') {
+                        newLayout.minH = neededRows
+                        newLayout.maxH = neededRows
+                    }
                     return newLayout
                 })
             })
@@ -114,8 +126,8 @@ const ExperimentDashboard: React.FC<Props> = () => {
     return (
         <ResponsiveGridLayout
             layouts={savedGridLayout}
-            breakpoints={{lg: 992, sm: 576, xs: 0}}
-            cols={{lg: 4, sm: 2, xs: 1}}
+            breakpoints={{xl: 1200, lg: 992, sm: 576, xs: 0}}
+            cols={{xl: 16, lg: 12, sm: 4, xs: 1}}
             rowHeight={rowHeight}
             margin={[gridMargin, gridMargin]}
             isBounded={true}
@@ -129,7 +141,7 @@ const ExperimentDashboard: React.FC<Props> = () => {
                 <Card title={t("experiments.dashboard.graph")}
                       minimization={[savedExperimentPlotMinimization, setSavedExperimentPlotMinimization]}
                       className={"border-top-primary border-top-5 overflow-hidden h-100 is-draggable"}>
-                    <div ref={element => experimentRefs.current["experiment-plot"] = element}>
+                    <div className="h-100" ref={element => experimentRefs.current["experiment-plot"] = element}>
                         <ExperimentPlot/>
                     </div>
                 </Card>
