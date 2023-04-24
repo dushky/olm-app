@@ -18,6 +18,11 @@ query DeviceTypesAndSoftware {
   deviceTypes {
     id
     name
+    experiment {
+      output_arguments {
+        name
+      }
+    }
   }
   software {
     id

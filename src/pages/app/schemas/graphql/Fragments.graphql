@@ -42,5 +42,6 @@ fragment ArgumentBasic on Argument {
   options {
     name
     value
+    output_value
   }
 }

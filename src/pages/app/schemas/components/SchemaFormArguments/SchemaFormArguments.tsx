@@ -9,11 +9,13 @@ import SchemaFormArgumentsRow from './SchemaFormArgumentsRow'
 interface Props {
   schemaArguments?: ArgumentInput[]
   handleChange?: (args: ArgumentInput[]) => void
+  outputValues?: string[]
 }
 
 const SchemaFormArguments: React.FC<Props> = ({
   schemaArguments: schemaArgumentsProp = [],
   handleChange,
+  outputValues
 }: Props) => {
   const { t } = useTranslation()
 
@@ -30,6 +32,7 @@ const SchemaFormArguments: React.FC<Props> = ({
       {schemaArguments.map((argument, index) => (
         <React.Fragment key={index}>
           <SchemaFormArgumentsRow
+              outputValues={outputValues}
             argument={argument}
             handleDelete={() => {
               const reduced = [...schemaArguments]

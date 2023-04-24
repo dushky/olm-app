@@ -10,12 +10,14 @@ interface Props {
   argument: ArgumentInput
   handleDelete: () => void
   handleChange?: (argument: ArgumentInput) => void
+  outputValues?: string[]
 }
 
 const SchemaFormArgumentsRow: React.FC<Props> = ({
   argument,
   handleDelete,
   handleChange,
+  outputValues
 }: Props) => {
   const { t } = useTranslation()
 
@@ -38,6 +40,7 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
       {
         name: '',
         value: '',
+        output_value: ''
       },
     ]
 
@@ -164,6 +167,7 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
           {argument?.options &&
             argument.options.map((option, index) => (
               <SchemaFormOptions
+                  outputValues={outputValues}
                 option={option}
                 handleChange={(option) => handleChangeOption(option, index)}
                 handleDelete={() => handleDeleteOption(index)}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  CAlert,
   CButton,
   CCol,
   CForm,
@@ -49,6 +50,7 @@ const formatSchemaInput = (schema: SchemaExtendedFragment) => {
           return {
             name: option?.name || '',
             value: option?.value || '0',
+            output_value: option?.output_value || ''
           }
         }),
       }
@@ -255,30 +257,48 @@ const EditSchemaForm = ({ schema }: Props) => {
           </CCol>
         </CRow>
 
-        <SchemaFormArguments
-          schemaArguments={
-            updateSchemaInput.arguments?.map((argument) => {
-              return {
-                name: argument.name,
-                label: argument.label,
-                default_value: argument?.default_value,
-                row: argument.row,
-                order: argument.order,
-                options: argument.options?.map((option) => {
-                  return {
-                    name: option.name,
-                    value: option.value,
-                  }
-                }),
-              }
-            }) as ArgumentInput[]
-          }
-          handleChange={(args) => setUpdateSchemaInput({ ...updateSchemaInput, arguments: args })}
-        />
+        {updateSchemaInput.device_type_id !== '-1' && (
+            <SchemaFormArguments
+                outputValues={deviceTypesAndSoftware.data?.deviceTypes
+                    .filter((deviceType) => deviceType.id === updateSchemaInput.device_type_id)
+                    .reduce((accumulator: string[], deviceType) => {
+                      deviceType.experiment.forEach((experiment) => {
+                        experiment.output_arguments.forEach((outputArgument) => {
+                          if (!accumulator.includes(outputArgument.name)) {
+                            accumulator.push(outputArgument.name)
+                          }
+                        })
+                      })
+                      return accumulator
+                    }, [])}
+                schemaArguments={
+                  updateSchemaInput.arguments?.map((argument) => {
+                    return {
+                      name: argument.name,
+                      label: argument.label,
+                      default_value: argument?.default_value,
+                      row: argument.row,
+                      order: argument.order,
+                      options: argument.options?.map((option) => {
+                        return {
+                          name: option.name,
+                          value: option.value,
+                          output_value: option.output_value
+                        }
+                      }),
+                    }
+                  }) as ArgumentInput[]
+                }
+                handleChange={(args) => setUpdateSchemaInput({ ...updateSchemaInput, arguments: args })}
+            />
+        ) || (
+            <CAlert className="text-center" color="info">{t('schemas.device_type_warning')}</CAlert>
+        )}
+
 
         <div className="text-right">
           <ButtonBack className="me-2" />
-          <ButtonSave />
+          {updateSchemaInput.device_type_id !== '-1' && (<ButtonSave />)}
         </div>
       </CForm>
     </>
