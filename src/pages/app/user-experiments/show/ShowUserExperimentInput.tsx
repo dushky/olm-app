@@ -25,7 +25,7 @@ const ShowUserExperimentInput: React.FC<Props> = ({ input }: Props) => {
                   <CRow>
                     {commandInput.map((arg) => (
                       <CCol sm={6} key={arg.name}>
-                        <strong>{arg.label || arg.name}</strong>&nbsp;
+                        <strong>{arg.label || arg.name}</strong>:&nbsp;
                         <span>{arg.formatted_value || arg.value}</span>
                       </CCol>
                     ))}
