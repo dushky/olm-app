@@ -7,7 +7,10 @@ const DefaultLayout: React.FC = () => {
   const [sidebarVisible, setSidebarVisible] = useState(true)
 
   const changeSidebarVisibility = () => {
-    setSidebarVisible(!sidebarVisible)
+    setSidebarVisible(!sidebarVisible);
+      setTimeout(() => {
+          window.dispatchEvent(new Event('resize'));
+      }, 500);
   }
 
   return (

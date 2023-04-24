@@ -30,7 +30,12 @@ const AppSidebar: React.FC<Props> = ({ visible }: Props) => {
           <AppSidebarNav navigationItems={navigationItems} />
         </SimpleBar>
       </CSidebarNav>
-      <CSidebarToggler className="d-none d-lg-flex" onClick={() => setNarrow(!narrow)} />
+      <CSidebarToggler className="d-none d-lg-flex" onClick={() => {
+          setNarrow(!narrow);
+          setTimeout(() => {
+              window.dispatchEvent(new Event('resize'));
+          }, 500);
+      }} />
     </CSidebar>
   )
 }
