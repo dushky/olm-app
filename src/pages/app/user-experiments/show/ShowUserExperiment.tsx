@@ -13,6 +13,7 @@ import ShowUserExperimentInput from './ShowUserExperimentInput'
 import ShowUserExperimentForm from './ShowUserExperimentForm'
 import ShowUserExperimentDownload from './ShowUserExperimentDownload'
 import ShowUserExperimentSchema from './ShowUserExperimentSchema'
+import ShowUserExperimentEvaluation from "./ShowUserExperimentEvaluation";
 
 const formatExperimentName = (userExperiment: UserExperimentExtendedFragment) => {
   return `${userExperiment.experiment.deviceType.name} [${userExperiment.device?.name}] | ${userExperiment.experiment.software.name}`
@@ -101,6 +102,10 @@ const ShowUserExperiment: React.FC = () => {
                 }
               />
             )}
+            {userExperiment?.evaluation && can('user_experiment.show_evaluation', appState.authUser) &&
+              <ShowUserExperimentEvaluation evaluation={userExperiment.evaluation}/>
+            }
+
           </CCol>
           <CCol md={6}>
             {userExperiment?.schema && (
