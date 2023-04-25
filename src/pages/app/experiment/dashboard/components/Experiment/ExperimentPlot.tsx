@@ -3,6 +3,7 @@ import {SpinnerOverlay} from "../../../../../../components";
 import PlotlyChart from "react-plotly.js";
 import {LegendClickEvent, PlotData} from "plotly.js";
 import {DashboardContext} from "./ExperimentDashboardWrapper";
+import {useTranslation} from "react-i18next";
 
 // type Props = {
 //     loading: boolean,
@@ -18,6 +19,7 @@ const ExperimentPlot: React.FC<Props> = () => {
         data,
         userExperiment
     } = useContext(DashboardContext)
+    const {t} = useTranslation();
     const [graphData, setGraphData] = useState<PlotData[]>([])
     const showDefaultVisibility = useRef(true);
 
@@ -39,19 +41,19 @@ const ExperimentPlot: React.FC<Props> = () => {
 
     const updateGraphData = () => {
         if (data) {
-            const time = data[0].name.toLowerCase() === 'timestamp'
+            const time = data[0].tag.toLowerCase() === 'time'
                 ? data[0].data.map((timestamp: string) => parseFloat(timestamp))
                 : Array.from(Array(data[0].data).keys()).map((i) => i)
 
             setGraphData( (graphData) =>
                 data.map((d) => {
-                    if (d.name === 'Timestamp') return {} as PlotData
+                    if (d.tag === 'time') return {} as PlotData
                     return {
-                        name: d['name'],
+                        name: t('experiment-output.'+d['tag']),
                         x: time,
                         y: d['data'],
                         type: 'scatter',
-                        visible: getAxisVisibility(d['name'], d["defaultVisibilityFor"], graphData)
+                        visible: getAxisVisibility(t('experiment-output.'+d['tag']), d["defaultVisibilityFor"], graphData)
                     } as PlotData
                 }),
             )

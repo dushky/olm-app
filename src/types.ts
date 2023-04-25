@@ -123,6 +123,7 @@ export type ArgumentOption = {
 
 export type WsData = {
   name: string,
+  tag: string,
   data: string[],
   defaultVisibilityFor: string[]
 }

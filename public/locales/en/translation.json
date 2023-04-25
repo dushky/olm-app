@@ -1,4 +1,29 @@
 {
+  "experiment-output": {
+    "time": "Timestamp",
+    "temp_chip": "Chip temp",
+    "f_temp_int": "Filtered internal temp",
+    "d_temp_int": "Derived internal temp",
+    "f_temp_ext": "Filtered external temp",
+    "d_temp_ext": "Derived external temp",
+    "f_light_int_lin": "Light filtered lin intensity",
+    "d_light_int_lin": "Light derived lin intensity",
+    "f_light_int_log": "Light filtered log intensity",
+    "d_light_int_log": "Light derived log intensity",
+    "I_bulb": "Bulb current",
+    "V_bulb": "Bulb voltage",
+    "I_fan": "Fan current",
+    "V_fan": "Fan voltage",
+    "f_rpm": "Fan filtered rpm",
+    "d_rmp": "Fan derived rpm",
+    "f_rfs": "Fan RPM from start",
+    "p_cmf": "Period of cycle",
+    "u_lamp": "Lamp control signal",
+    "u_led": "LED control signal",
+    "u_fan": "Fan control signal",
+    "set_point": "Set point value"
+  },
+
   "navbar": {
     "title": "Online labaratory manager",
     "login": "Login",
@@ -249,6 +274,7 @@
   "schemas": {
     "arguments": "Arguments",
     "options": "Options",
+    "device_type_warning": "Select the device type to add arguments",
     "add_argument": "Add argument",
     "add_option": "Add option",
     "types": {
@@ -272,7 +298,8 @@
         "order": "Order",
         "option": {
           "name": "Name",
-          "value": "Value"
+          "value": "Value",
+          "output_value": "Output value"
         }
       }
     },
@@ -361,6 +388,7 @@
   },
   "user_experiments": {
     "executed_commands": "Executed commands",
+    "evaluation": "Evaluation",
     "simulation_time": "Simulation time",
     "measurement_value": "Measurement value",
     "only_mine": "Only mine reports",
@@ -368,6 +396,17 @@
     "processing": "Experiment is being processed",
     "finished": "Experiment is finished",
     "error_occurred": "An error occurred in the processing of the experiment",
+    "evaluation_values": {
+      "iae": "IAE",
+      "ise": "ISE",
+      "itae": "ITAE",
+      "overshoot": "Overshoot",
+      "max_overshoot": "Maximum overshoot",
+      "steady_state_value": "Steady state value",
+      "settling_time_2": "Settling time 0.02",
+      "settling_time_5": "Settling time 0.05",
+      "required_value": "Required value"
+    },
     "columns": {
       "id": "ID",
       "filled": "Filled",

@@ -1,4 +1,29 @@
 {
+  "experiment-output": {
+    "time": "Timestamp",
+    "temp_chip": "Teplota čipu",
+    "f_temp_int": "Filtrovaná vnútorná teplota",
+    "d_temp_int": "Odvodená vnútorná teplota",
+    "f_temp_ext": "Filtrovaná vonkajšia teplota",
+    "d_temp_ext": "Odvodená vonkajšia teplota",
+    "f_light_int_lin": "Svetlo filtrovaná lin intenzita",
+    "d_light_int_lin": "Svetlo odvodená lin intenzita",
+    "f_light_int_log": "Svetlo filtrovaná log intenzita",
+    "d_light_int_log": "Svetlo odvodená log intenzita",
+    "I_bulb": "Prúd žiarovky",
+    "V_bulb": "Napätie žiarovky",
+    "I_fan": "Prúd ventilátora",
+    "V_fan": "Napätie ventilátora",
+    "f_rpm": "Otáčky filtrované ventilátorom",
+    "d_rmp": "Otáčky odvodené od ventilátora",
+    "f_rfs": "Otáčky ventilátora od začiatku",
+    "p_cmf": "Obdobie cyklu",
+    "u_lamp": "Signál ovládania lampy",
+    "u_led": "LED kontrolný signál",
+    "u_fan": "Signál ovládania ventilátora",
+    "set_point": "Nastavená bodová hodnota"
+  },
+
   "navbar": {
     "title": "Online labaratory manager",
     "login": "Prihlásenie",
@@ -249,6 +274,7 @@
   "schemas": {
     "arguments": "Argumenty",
     "options": "Možnosti",
+    "device_type_warning": "Pre pridávanie argumentov vyberte typ zariadenia",
     "add_argument": "Pridať argument",
     "add_option": "Pridať možnosť",
     "types": {
@@ -270,7 +296,8 @@
         "default_value": "Predvolená hodnota",
         "option": {
           "name": "Názov",
-          "value": "Hodnota"
+          "value": "Hodnota",
+          "output_value": "Výstupná veličina"
         }
       }
     },
@@ -359,6 +386,7 @@
   },
   "user_experiments": {
     "executed_commands": "Vykonané príkazy",
+    "evaluation": "Vyhodnotenie",
     "simulation_time": "Čas simulácie",
     "measurement_value": "Nameraná hodnota",
     "only_mine": "Len moje reporty",
@@ -366,6 +394,17 @@
     "processing": "Experiment sa spracováva",
     "finished": "Experiment je ukončený",
     "error_occurred": "Pri spracovaní experimentu došlo k chybe",
+    "evaluation_values": {
+      "iae": "IAE",
+      "ise": "ISE",
+      "itae": "ITAE",
+      "overshoot": "Overshoot",
+      "max_overshoot": "Maximálny overshoot",
+      "steady_state_value": "Hodnota ustáleného stavu",
+      "settling_time_2": "Čas vyrovnania 0.02",
+      "settling_time_5": "Čas vyrovnania 0.05",
+      "required_value": "Žiadaná hodnota"
+    },
     "columns": {
       "id": "ID",
       "filled": "Vyplnené",

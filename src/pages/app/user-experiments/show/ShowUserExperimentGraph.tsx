@@ -16,23 +16,23 @@ type Props = {
 const ShowUserExperimentGraph: React.FC<Props> = ({ data, title, outputArguments, software }: Props) => {
   const { t } = useTranslation()
   const [graphData, setGraphData] = useState<Plotly.Data[]>()
-
+  console.log(t('experiment-output.'+'time'))
   useEffect(() => {
     const time = data.length
-      ? data[0].name === 'Timestamp'
+      ? data[0].name === 'time'
         ? data[0].data
         : Array.from(Array(data[0].data).keys()).map((i) => i)
       : []
 
     const formatedData: Plotly.Data[] = data.map((d) => {
-      if (d.name === 'Timestamp') return {}
+      if (d.name === 'time') return {}
       return {
-        name: d.name,
+        name: t('experiment-output.'+d.name),
         x: time,
         y: d.data,
         type: 'scatter' as PlotType,
         visible: outputArguments
-            .find((outputArgument) => outputArgument.title === d.name)
+            .find((outputArgument) => outputArgument.name === d.name)
             ?.defaultVisibilityFor?.includes(software) ?? 'legendonly',
       } as Plotly.Data
     })
