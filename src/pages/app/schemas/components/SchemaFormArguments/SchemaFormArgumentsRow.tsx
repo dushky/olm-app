@@ -122,11 +122,11 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
             <CFormInput
               type="number"
               id="row"
-              value={argumentInput?.row || ''}
+              value={argumentInput?.row === undefined ? '' : argumentInput.row as number}
               onChange={(event) => {
                 setArgumentInput({
                   ...argumentInput,
-                  row: parseInt(event.target.value) || undefined,
+                  row: event.target.value ? parseInt(event.target.value): undefined,
                 })
               }}
             />
@@ -136,11 +136,11 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
             <CFormInput
               type="number"
               id="order"
-              value={argumentInput?.order || ''}
+              value={argumentInput?.order === undefined ? '' : argumentInput.order as number}
               onChange={(event) => {
                 setArgumentInput({
                   ...argumentInput,
-                  order: parseInt(event.target.value) || undefined,
+                  order: event.target.value ? parseInt(event.target.value): undefined,
                 })
               }}
             />

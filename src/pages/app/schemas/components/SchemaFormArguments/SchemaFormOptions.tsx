@@ -57,7 +57,7 @@ const SchemaFormOptions: React.FC<Props> = ({ option, handleChange, handleDelete
                     <option value=""></option>
                     {outputValues?.map((outputValue) => (
                         <option value={outputValue} key={outputValue}>
-                            {t('experiment-output.'+outputValue)}
+                            {t('experiment-output.'+outputValue)} ({outputValue})
                         </option>
                     ))}
                 </CFormSelect>

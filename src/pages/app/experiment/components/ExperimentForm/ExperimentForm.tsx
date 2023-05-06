@@ -34,6 +34,7 @@ interface ArugmentsRow {
 const formatArguments = (args: ArgumentBasic[]) => {
   let formatted: ArugmentsRow = {}
   args.forEach((arg) => {
+    if (arg.row <= 0) return;
     if (!(arg.row in formatted)) formatted[arg.row] = []
 
     formatted[arg.row] = [...formatted[arg.row], arg]
