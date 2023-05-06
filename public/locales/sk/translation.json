@@ -398,11 +398,12 @@
       "iae": "IAE",
       "ise": "ISE",
       "itae": "ITAE",
-      "overshoot": "Overshoot",
-      "max_overshoot": "Maximálny overshoot",
+      "overshoot": "Preregulovanie",
+      "permanent_error" : "Trvalá regulačná odchýlka",
+      "max_overshoot": "Maximálne preregulovanie",
       "steady_state_value": "Hodnota ustáleného stavu",
-      "settling_time_2": "Čas vyrovnania 0.02",
-      "settling_time_5": "Čas vyrovnania 0.05",
+      "settling_time_2": "Doba ustálenia (+-2%)",
+      "settling_time_5": "Doba ustálenia (+-5%)",
       "required_value": "Žiadaná hodnota"
     },
     "columns": {

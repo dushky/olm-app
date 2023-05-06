@@ -401,10 +401,11 @@
       "ise": "ISE",
       "itae": "ITAE",
       "overshoot": "Overshoot",
-      "max_overshoot": "Maximum overshoot",
+      "max_overshoot": "Maximum overshoot [%]",
+      "permanent_error" : "Permanent error",
       "steady_state_value": "Steady state value",
-      "settling_time_2": "Settling time 0.02",
-      "settling_time_5": "Settling time 0.05",
+      "settling_time_2": "Settling time (+-2%)",
+      "settling_time_5": "Settling time (+-5%)",
       "required_value": "Required value"
     },
     "columns": {
