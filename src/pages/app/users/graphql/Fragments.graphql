@@ -10,12 +10,12 @@ fragment UserBasic on User {
   email
   created_at
   deleted_at
+  roles {
+    name
+  }
 }
 
 fragment UserExtended on User {
   ...UserBasic
   permissionsList
-  roles {
-    name
-  }
 }

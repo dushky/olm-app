@@ -80,6 +80,10 @@ const IndexUserTable: React.FC<Props> = ({
       column: 'created_at',
       name: t('users.columns.created-at'),
     },
+    {
+      column: 'roles',
+      name: t('users.columns.roles'),
+    },
   ]
 
   const actions: TableAction[] = [
@@ -115,7 +119,15 @@ const IndexUserTable: React.FC<Props> = ({
       {deleteUser.error && <ErrorNotifier error={deleteUser.error} />}
       {restoreUser.error && <ErrorNotifier error={restoreUser.error} />}
       {(deleteUser.loading || restoreUser.loading) && <SpinnerOverlay transparent={true} />}
-      <Table columns={columns} data={users} actions={actions} />
+      <Table
+          columns={columns}
+          data={users.map((user) => {
+            return {
+              ...user,
+              roles: user.roles.map((role) => role.name).join(', ')
+            }
+          })}
+          actions={actions} />
       <Pagination
         currentPage={currentPage}
         lastPage={paginatorInfo.lastPage}
