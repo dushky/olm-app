@@ -114,7 +114,7 @@ const ExperimentDashboardWrapper: React.FC<Props> = ({experiments, userExperimen
                 cluster: process.env.REACT_APP_PUSHER_ENV_CLUSTER,
                 wsHost: userExperiment.experiment.server?.api_domain,
                 wssPort: userExperiment.experiment.server?.websocket_port,
-                forceTLS: true,
+                forceTLS: false,
                 disableStats: true,
             })
 
