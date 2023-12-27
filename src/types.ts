@@ -113,7 +113,8 @@ export type ArgumentBasic = {
   default_value?: string | null,
   row: number,
   order: number,
-  options?: ArgumentOption[] | null
+  options?: ArgumentOption[] | null,
+  type: string
 }
 
 export type ArgumentOption = {

@@ -44,4 +44,5 @@ fragment ArgumentBasic on Argument {
     value
     output_value
   }
+  type
 }

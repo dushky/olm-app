@@ -63,6 +63,7 @@ fragment ExperimentBasic on Experiment {
         name
         value
       }
+      type
     }
   }
   has_schema
