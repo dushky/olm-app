@@ -1,4 +1,4 @@
-import { CFormFloating, CFormInput, CFormLabel, CFormSelect, CForm, CFormTextarea } from '@coreui/react'
+import { CFormFloating, CFormInput, CFormLabel, CFormSelect } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -36,10 +36,11 @@ const ExperimentFormArgument: React.FC<Props> = ({
 
   if (argument.type === "textarea") {
     return (
-      <CForm>
+      <div className={className} style={style}>
         <CFormLabel>{argument.label}</CFormLabel>
-
         <textarea
+          className="col-12"
+          rows={5}
           id={argument.name}
           value={value}
           placeholder={argument.label}
@@ -47,14 +48,10 @@ const ExperimentFormArgument: React.FC<Props> = ({
           onChange={(event) => {
             setValue(event.target.value);
           }}
-          rows={5}
-          className={className + " col-12"}
-        ></textarea>
-      </CForm>
+        />
+      </div>
     );
   }
-  
-
 
   return argument.options && argument.options.length ? (
     <div className={className} style={style}>
