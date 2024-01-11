@@ -53,6 +53,33 @@ const ExperimentFormArgument: React.FC<Props> = ({
     );
   }
 
+  if (argument.type === "file") {
+    return (
+      <div className={className} style={style}>
+        <CFormLabel>{argument.label}</CFormLabel>
+        <CFormInput
+          type="file"
+          id={argument.name}
+          accept=".c, .txt"
+          required={false}
+          onChange={(event) => {
+            const file = event.target.files && event.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                if (e.target && e.target.result !== null) {
+                  setValue(e.target.result.toString());
+                }
+              };
+              reader.readAsText(file);
+            }
+          }}
+          
+        />
+      </div>
+    );
+  }
+
   return argument.options && argument.options.length ? (
     <div className={className} style={style}>
       <CFormLabel className="d-block">{argument.label}</CFormLabel>

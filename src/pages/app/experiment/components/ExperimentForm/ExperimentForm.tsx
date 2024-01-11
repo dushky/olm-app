@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { CButton, CCol, CForm, CFormLabel, CFormSelect, CRow } from '@coreui/react'
+import { CButton, CCol, CForm, CFormLabel, CFormSelect, CRow, CFormCheck } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilImage } from '@coreui/icons'
 import { useTranslation } from 'react-i18next'
@@ -63,6 +63,8 @@ const ExperimentForm: React.FC<Props> = ({
   const { t } = useTranslation()
 
   const [visiblePreview, setVisiblePreview] = useState(false)
+  const [inputType, setInputType] = useState<string>("code")
+
   const [selectedExperiment, setSelectedExperiment] = useState<ExperimentBasicFragment | undefined>(
     experiments[0],
   )
@@ -210,20 +212,38 @@ const ExperimentForm: React.FC<Props> = ({
 
     Object.values(formatted).forEach((val: ArgumentBasic[], rowIndex: number) => {
       let cols: React.ReactNode[] = []
-
       val.forEach((argument: ArgumentBasic, colIndex: number) => {
-        cols = [
-          ...cols,
-          <CCol key={colIndex}>
-            <ExperimentFormArgument
-              argument={argument}
-              val={experimentInput.find((arg) => arg.name === argument.name)?.value}
-              handleChange={upsertArgument}
-              className="mb-3"
-              style={{ minWidth: '150px', maxWidth: '100%' }}
-            />
-          </CCol>,
-        ]
+        if(selectedExperiment?.deviceType.name === "L3Dcube" && inputType === "code") {
+          if(argument.type !== "file"){
+            cols = [
+              ...cols,
+              <CCol key={colIndex}>
+                <ExperimentFormArgument
+                  argument={argument}
+                  val={experimentInput.find((arg) => arg.name === argument.name)?.value}
+                  handleChange={upsertArgument}
+                  className="mb-3"
+                  style={{ minWidth: '150px', maxWidth: '100%' }}
+                />
+              </CCol>,
+            ]
+          }
+        } else {
+          if(argument.type === "file"){
+            cols = [
+              ...cols,
+              <CCol key={colIndex}>
+                <ExperimentFormArgument
+                  argument={argument}
+                  val={experimentInput.find((arg) => arg.name === argument.name)?.value}
+                  handleChange={upsertArgument}
+                  className="mb-3"
+                  style={{ minWidth: '150px', maxWidth: '100%' }}
+                />
+              </CCol>,
+            ]
+          }
+        }
       })
 
       rows = [
@@ -241,6 +261,13 @@ const ExperimentForm: React.FC<Props> = ({
 
   return (
     <>
+      {selectedExperiment?.deviceType.name === "L3Dcube" && 
+        <div className="d-flex gap-2 pb-3">
+          <CFormCheck button={{ color: 'success', variant: 'outline' }} type="radio" name="options" id="code" autoComplete="off" label="Code" defaultChecked onClick={()=>setInputType("code")}/>
+          <CFormCheck button={{ color: 'success', variant: 'outline' }} type="radio" name="options" id="file" autoComplete="off" label="File" onClick={()=>setInputType("file")}/>
+        </div>
+      }
+
       {selectedSchema?.preview && (
         <ModalPreview
           active={visiblePreview}
