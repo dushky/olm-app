@@ -67,6 +67,7 @@ fragment ExperimentBasic on Experiment {
     }
   }
   has_schema
+  has_demo
   commands
 }
 

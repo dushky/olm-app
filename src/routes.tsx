@@ -40,6 +40,11 @@ import IndexSchema from 'pages/app/schemas/index'
 import CreateSchema from 'pages/app/schemas/create'
 import EditSchema from 'pages/app/schemas/edit'
 
+//demos
+import IndexDemo from 'pages/app/demos/index'
+import CreateDemo from 'pages/app/schemas/create'
+import EditDemo from 'pages/app/demos/edit'
+
 // user experiments
 import IndexUserExperiment from 'pages/app/user-experiments/index'
 import ShowUserExperiment from 'pages/app/user-experiments/show'
@@ -223,6 +228,35 @@ const routes = (loggedIn: boolean) => [
             element: (
               <Can permission="schema.update" notify={true}>
                 <EditSchema />
+              </Can>
+            ),
+          },
+        ],
+      },
+      {
+        path: '/demos',
+        children: [
+          {
+            path: '/',
+            element: (
+              <Can permission="schema.show" notify={true}>
+                <IndexDemo />
+              </Can>
+            ),
+          },
+          {
+            path: '/create',
+            element: (
+              <Can permission="schema.create" notify={true}>
+                <CreateDemo />
+              </Can>
+            ),
+          },
+          {
+            path: ':id/edit',
+            element: (
+              <Can permission="schema.update" notify={true}>
+                <EditDemo />
               </Can>
             ),
           },

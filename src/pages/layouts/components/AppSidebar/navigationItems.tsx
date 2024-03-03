@@ -8,6 +8,7 @@ import {
   cilLockLocked,
   cilSpeedometer,
   cilUser,
+  cilCode,
 } from '@coreui/icons'
 import { CNavItem, CNavTitle } from '@coreui/react'
 
@@ -64,7 +65,13 @@ const navigationItems = [
     to: '/app/schemas',
     icon: <CIcon content={cilCalculator} customClasses="nav-icon" />,
   },
-
+  {
+    component: CNavItem,
+    name: 'sidebar.demos',
+    permission: 'schema.show',
+    to: '/app/demos',
+    icon: <CIcon content={cilCode} customClasses="nav-icon" />,
+  },
   {
     component: CNavTitle,
     name: 'sidebar.settings',

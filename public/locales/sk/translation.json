@@ -93,6 +93,7 @@
     "roles": "Role a práva",
     "servers": "Servery",
     "schemas": "Schémy",
+    "demos": "Demá",
     "user_experiments": "Reporty"
   },
 
@@ -331,6 +332,68 @@
       "error": "Schému nebolo možné stiahnúť!"
     }
   },
+
+  "demos": {
+    "arguments": "Argumenty",
+    "options": "Možnosti",
+    "device_type_warning": "Pre pridávanie argumentov vyberte typ zariadenia",
+    "add_argument": "Pridať argument",
+    "add_option": "Pridať možnosť",
+    "types": {
+      "control": "Regulačná",
+      "ident": "Identifikačná"
+    },
+    "columns": {
+      "id": "ID",
+      "name": "Názov",
+      "schema_type": "Typ dema",
+      "device_type": "Typ zariadenia",
+      "software": "Softvér",
+      "note": "Poznámka",
+      "schema": "Demo",
+      "preview": "Náhľad",
+      "argument": {
+        "name": "Názov",
+        "label": "Label",
+        "default_value": "Predvolená hodnota",
+        "option": {
+          "name": "Názov",
+          "value": "Hodnota",
+          "output_value": "Výstupná veličina"
+        }
+      }
+    },
+    "index": {
+      "title": "Demá"
+    },
+    "preview": {
+      "title": "Náhľad dema",
+      "error": "Demo nemá preview."
+    },
+    "create": {
+      "success": "Demo bolo vytvorené!",
+      "error": "Schému nebolo možné vytvoriť!"
+    },
+    "update": {
+      "success": "Demo bolo zmenené!",
+      "error": "Schému nebolo možné upraviť!"
+    },
+    "delete": {
+      "confirm": "Naozaj chcete vymazať dané demo?",
+      "success": "Demo bola vymazané!",
+      "error": "Demo nebolo možné zmazať!"
+    },
+    "restore": {
+      "confirm": "Naozaj chcete obnoviť dané demo?",
+      "success": "Demo bolo obnovené!",
+      "error": "Demo nebolo možné obnoviť!"
+    },
+    "download": {
+      "success": "Demo bolo stiahnuté!",
+      "error": "Demo nebolo možné stiahnúť!"
+    }
+  },
+
   "experiments": {
     "title": "Experiment v reálnom čase",
     "no_experiments": "Zariadenie nemá žiadne experimenty",

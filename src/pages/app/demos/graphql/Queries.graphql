@@ -1,0 +1,31 @@
+query Schemas($trashed: Trashed) {
+  schemas(trashed: $trashed) {
+    ...SchemaBasic
+  }
+}
+
+query Schema($id: ID!) {
+  schema(id: $id) {
+    ...SchemaExtended
+  }
+}
+
+query AvailableSchemaTypes {
+  availableSchemaTypes
+}
+
+query DeviceTypesAndSoftware {
+  deviceTypes {
+    id
+    name
+    experiment {
+      output_arguments {
+        name
+      }
+    }
+  }
+  software {
+    id
+    name
+  }
+}

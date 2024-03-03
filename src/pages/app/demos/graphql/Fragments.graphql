@@ -1,0 +1,48 @@
+fragment SchemaBasic on Schema {
+  id
+  name
+  schema
+  preview
+  deviceType {
+    name
+  }
+  software {
+    name
+  }
+  deleted_at
+}
+
+fragment SchemaExtended on Schema {
+  id
+  name
+  type
+  availableTypes
+  note
+  schema
+  preview
+  deviceType {
+    id
+    name
+  }
+  software {
+    id
+    name
+  }
+  arguments {
+    ...ArgumentBasic
+  }
+}
+
+fragment ArgumentBasic on Argument {
+  name
+  label
+  default_value
+  row
+  order
+  options {
+    name
+    value
+    output_value
+  }
+  type
+}
