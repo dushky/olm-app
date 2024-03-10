@@ -1,1 +1,1 @@
-export { default } from './IndexSchema'
+export { default } from './IndexDemo'

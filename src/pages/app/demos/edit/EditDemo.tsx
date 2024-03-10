@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 
 import { useDemoQuery } from '__generated__/graphql'
 import { Card, ErrorNotifier, SpinnerOverlay } from 'components'
-import EditDemoForm from './EditSchemaForm'
+import EditDemoForm from './EditDemoForm'
 
 
 const EditDemo: React.FC = () => {

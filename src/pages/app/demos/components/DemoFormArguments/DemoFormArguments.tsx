@@ -4,7 +4,7 @@ import CIcon from '@coreui/icons-react'
 import { CButton } from '@coreui/react'
 import { useTranslation } from 'react-i18next'
 import { ArgumentInput } from '__generated__/graphql'
-import DemoFormArgumentsRow from './SchemaFormArgumentsRow'
+import DemoFormArgumentsRow from './DemoFormArgumentsRow'
 
 interface Props {
   demoArguments?: ArgumentInput[]

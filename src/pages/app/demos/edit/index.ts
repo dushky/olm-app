@@ -1,1 +1,1 @@
-export { default } from './EditSchema'
+export { default } from './EditDemo'

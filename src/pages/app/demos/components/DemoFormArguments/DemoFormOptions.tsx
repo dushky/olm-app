@@ -12,7 +12,7 @@ interface Props {
   outputValues?: string[]
 }
 
-const SchemaFormOptions: React.FC<Props> = ({ option, handleChange, handleDelete, outputValues }: Props) => {
+const DemoFormOptions: React.FC<Props> = ({ option, handleChange, handleDelete, outputValues }: Props) => {
   const { t } = useTranslation()
 
   return (
@@ -27,7 +27,7 @@ const SchemaFormOptions: React.FC<Props> = ({ option, handleChange, handleDelete
               handleChange({ ...option, name: event.target.value })
             }}
           />
-          <CFormLabel>{t('schemas.columns.argument.option.name')}</CFormLabel>
+          <CFormLabel>{t('demos.columns.argument.option.name')}</CFormLabel>
         </CFormFloating>
       </CCol>
       <CCol xs={3}>
@@ -42,7 +42,7 @@ const SchemaFormOptions: React.FC<Props> = ({ option, handleChange, handleDelete
               handleChange({ ...option, value: val })
             }}
           />
-          <CFormLabel>{t('schemas.columns.argument.option.value')}</CFormLabel>
+          <CFormLabel>{t('demos.columns.argument.option.value')}</CFormLabel>
         </CFormFloating>
       </CCol>
         <CCol sm={3}>
@@ -61,7 +61,7 @@ const SchemaFormOptions: React.FC<Props> = ({ option, handleChange, handleDelete
                         </option>
                     ))}
                 </CFormSelect>
-                <CFormLabel>{t('schemas.columns.argument.option.output_value')}</CFormLabel>
+                <CFormLabel>{t('demos.columns.argument.option.output_value')}</CFormLabel>
             </CFormFloating>
         </CCol>
       <CCol xs={2} className="d-flex justify-content-start align-items-center">
@@ -77,4 +77,4 @@ const SchemaFormOptions: React.FC<Props> = ({ option, handleChange, handleDelete
   )
 }
 
-export default SchemaFormOptions
+export default DemoFormOptions

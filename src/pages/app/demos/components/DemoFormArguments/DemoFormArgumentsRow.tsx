@@ -4,7 +4,7 @@ import { CButton, CCol, CFormFloating, CFormInput, CFormLabel, CRow } from '@cor
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ArgumentInput, OptionInput } from '__generated__/graphql'
-import SchemaFormOptions from './SchemaFormOptions'
+import DemoFormOptions from './DemoFormOptions'
 
 interface Props {
   argument: ArgumentInput
@@ -13,7 +13,7 @@ interface Props {
   outputValues?: string[]
 }
 
-const SchemaFormArgumentsRow: React.FC<Props> = ({
+const DemoFormArgumentsRow: React.FC<Props> = ({
   argument,
   handleDelete,
   handleChange,
@@ -83,7 +83,7 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
                 setArgumentInput({ ...argumentInput, name: event.target.value })
               }}
             />
-            <CFormLabel>{t('schemas.columns.argument.name')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.argument.name')}</CFormLabel>
           </CFormFloating>
         </CCol>
         <CCol md={3}>
@@ -96,7 +96,7 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
                 setArgumentInput({ ...argumentInput, label: event.target.value })
               }}
             />
-            <CFormLabel>{t('schemas.columns.argument.label')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.argument.label')}</CFormLabel>
           </CFormFloating>
         </CCol>
         <CCol md={3}>
@@ -114,7 +114,7 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
                 })
               }}
             />
-            <CFormLabel>{t('schemas.columns.argument.default_value')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.argument.default_value')}</CFormLabel>
           </CFormFloating>
         </CCol>
         <CCol md={3} className="d-flex justify-content-start align-items-center">
@@ -130,7 +130,7 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
                 })
               }}
             />
-            <CFormLabel>{t('schemas.columns.argument.row')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.argument.row')}</CFormLabel>
           </CFormFloating>
           <CFormFloating className="me-3">
             <CFormInput
@@ -144,7 +144,7 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
                 })
               }}
             />
-            <CFormLabel>{t('schemas.columns.argument.order')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.argument.order')}</CFormLabel>
           </CFormFloating>
           <CButton
             className="d-inline-flex justify-content-center align-items-center text-light"
@@ -159,14 +159,14 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
         <CCol md={{ span: 8, offset: 2 }}>
           {argument?.options?.length ? (
             <CCol xs={12} className="text-center">
-              <h6>{t('schemas.options')}</h6>
+              <h6>{t('demos.options')}</h6>
             </CCol>
           ) : (
             <></>
           )}
           {argument?.options &&
             argument.options.map((option, index) => (
-              <SchemaFormOptions
+              <DemoFormOptions
                   outputValues={outputValues}
                 option={option}
                 handleChange={(option) => handleChangeOption(option, index)}
@@ -180,7 +180,7 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
               onClick={handleAddOption}
             >
               <CIcon className="me-1" content={cilPlus} />
-              {t('schemas.add_option')}
+              {t('demos.add_option')}
             </CButton>
           </div>
         </CCol>
@@ -189,4 +189,4 @@ const SchemaFormArgumentsRow: React.FC<Props> = ({
   )
 }
 
-export default SchemaFormArgumentsRow
+export default DemoFormArgumentsRow

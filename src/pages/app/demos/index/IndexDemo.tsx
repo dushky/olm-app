@@ -4,7 +4,7 @@ import { cilCalculator } from '@coreui/icons'
 
 import { ButtonAdd, Can, Card, ErrorNotifier, SpinnerOverlay, TrashedDropdown } from 'components'
 import { DemoBasicFragment, Trashed, useDemosQuery } from '__generated__/graphql'
-import IndexDemoTable from './IndexSchemaTable'
+import IndexDemoTable from './IndexDemoTable'
 
 const IndexDemo: React.FC = () => {
   const { t } = useTranslation()

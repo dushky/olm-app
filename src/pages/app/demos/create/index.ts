@@ -1,1 +1,1 @@
-export { default } from './CreateSchema'
+export { default } from './CreateDemo'

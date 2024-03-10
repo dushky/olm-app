@@ -3,16 +3,16 @@ import { useTranslation } from 'react-i18next'
 import { cilCalculator } from '@coreui/icons'
 
 import { Card } from 'components'
-import CreateSchemaForm from './CreateSchemaForm'
+import CreateDemoForm from './CreateDemoForm'
 
-const CreateSchema: React.FC = () => {
+const CreateDemo: React.FC = () => {
   const { t } = useTranslation()
 
   return (
     <Card icon={cilCalculator} title={t('actions.create')}>
-      <CreateSchemaForm />
+      <CreateDemoForm />
     </Card>
   )
 }
 
-export default CreateSchema
+export default CreateDemo

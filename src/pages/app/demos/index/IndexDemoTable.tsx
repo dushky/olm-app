@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { cilActionUndo, cilCloudDownload, cilImage, cilPencil, cilTrash } from '@coreui/icons'
+import { cilActionUndo, cilCloudDownload, cilPencil, cilTrash } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
