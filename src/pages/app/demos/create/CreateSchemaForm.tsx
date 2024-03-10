@@ -142,19 +142,7 @@ const CreateDemoForm: React.FC = () => {
             />
           </div>
         </CCol>
-        <CCol md={6}>
-          <div className="mb-3">
-            <CFormLabel>{t('demos.columns.preview')}</CFormLabel>
-            <CFormInput
-              type="file"
-              id="preview"
-              onChange={({ target: { validity, files } }) => {
-                if (validity.valid)
-                  setCreateDemoInput({ ...createDemoInput, preview: files ? files[0] : null })
-              }}
-            />
-          </div>
-        </CCol>
+
       </CRow>
 
         {createDemoInput.device_type_id !== '-1' && (

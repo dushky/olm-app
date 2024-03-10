@@ -23,7 +23,7 @@ import {
   useDeviceTypesAndSoftwareQuery,
   useUpdateDemoMutation,
 } from '__generated__/graphql'
-import { ButtonBack, ButtonSave, ErrorNotifier, ModalPreview, SpinnerOverlay } from 'components'
+import { ButtonBack, ButtonSave, ErrorNotifier, SpinnerOverlay } from 'components'
 import { DemoFormArguments } from '../components'
 import { useNavigate } from 'react-router-dom'
 
@@ -60,7 +60,6 @@ const formatDemoInput = (demo: DemoExtendedFragment) => {
 const EditDemoForm = ({ demo }: Props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [visiblePreview, setVisiblePreview] = useState(false)
   const deviceTypesAndSoftware = useDeviceTypesAndSoftwareQuery()
   const [updateDemoInput, setUpdateDemoInput] = useState<UpdateDemoInput>(
     formatDemoInput(demo)
@@ -111,15 +110,6 @@ const EditDemoForm = ({ demo }: Props) => {
 
   return (
     <>
-      {demo.preview && (
-        <ModalPreview
-          active={visiblePreview}
-          src={demo.preview}
-          handleDismiss={() => {
-            setVisiblePreview(false)
-          }}
-        />
-      )}
       <CForm onSubmit={handleEdit}>
         {(loading || deviceTypesAndSoftware.loading) && <SpinnerOverlay transparent={true} />}
         {error && <ErrorNotifier error={error} />}
@@ -209,29 +199,6 @@ const EditDemoForm = ({ demo }: Props) => {
                 >
                   <CIcon content={cilCloudDownload} />
                   <span className="ms-1 text-nowrap">{demo.demo.split('/').pop()}</span>
-                </CButton>
-              )}
-            </div>
-          </CCol>
-          <CCol md={6}>
-            <CFormLabel>{t('demos.columns.preview')}</CFormLabel>
-            <div className="d-flex mb-3">
-              <CFormInput
-                type="file"
-                id="preview"
-                onChange={({ target: { validity, files } }) => {
-                  if (validity.valid)
-                    setUpdateDemoInput({ ...updateDemoInput, preview: files ? files[0] : null })
-                }}
-              />
-              {demo.preview && (
-                <CButton
-                  color="warning"
-                  className="ms-2 d-inline-flex justify-content-center align-items-center text-light"
-                  type="button"
-                  onClick={() => setVisiblePreview(true)}
-                >
-                  <CIcon content={cilImage} />
                 </CButton>
               )}
             </div>

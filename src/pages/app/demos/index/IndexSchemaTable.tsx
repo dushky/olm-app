@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toast'
 
-import { ErrorNotifier, ModalPreview, SpinnerOverlay, Table } from 'components'
+import { ErrorNotifier, SpinnerOverlay, Table } from 'components'
 import { TableAction, TableColumn } from 'types'
 import {
   DemoBasicFragment,
@@ -21,8 +21,6 @@ interface Props {
 const IndexDemoTable: React.FC<Props> = ({ demos, refetch }: Props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [visiblePreview, setVisiblePreview] = useState(false)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
   const [deleteDemoMutation, deleteDemoVariables] = useDeleteDemoMutation()
   const [restoreDemoMutation, restoreDemoVariables] = useRestoreDemoMutation()
@@ -85,18 +83,6 @@ const IndexDemoTable: React.FC<Props> = ({ demos, refetch }: Props) => {
     })
   }
 
-  const handleOpenPreviewModal = (id: string) => {
-    demos.forEach((demo) => {
-      if (demo.id === id) {
-        if (!demo.preview) {
-          toast.error(t('demos.preview.error'))
-          return
-        }
-        setPreviewUrl(demo.preview)
-        setVisiblePreview(true)
-      }
-    })
-  }
 
   const columns: TableColumn[] = [
     {
@@ -119,13 +105,6 @@ const IndexDemoTable: React.FC<Props> = ({ demos, refetch }: Props) => {
   ]
 
   const actions: TableAction[] = [
-    {
-      color: 'warning',
-      textColor: 'light',
-      permission: 'demo.show',
-      icon: <CIcon content={cilImage} />,
-      handleClick: handleOpenPreviewModal,
-    },
     {
       color: 'success',
       textColor: 'light',
@@ -168,15 +147,6 @@ const IndexDemoTable: React.FC<Props> = ({ demos, refetch }: Props) => {
       {(deleteDemoVariables.loading || restoreDemoVariables.loading) && (
         <SpinnerOverlay transparent={true} />
       )}
-
-      <ModalPreview
-        active={visiblePreview}
-        src={previewUrl}
-        handleDismiss={() => {
-          setVisiblePreview(false)
-          setPreviewUrl(null)
-        }}
-      />
 
       <Table columns={columns} data={demos} actions={actions} />
     </>
