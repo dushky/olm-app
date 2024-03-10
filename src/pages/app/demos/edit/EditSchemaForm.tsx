@@ -18,28 +18,27 @@ import { cilCloudDownload, cilImage } from '@coreui/icons'
 
 import {
   ArgumentInput,
-  SchemaExtendedFragment,
-  UpdateSchemaInput,
+  DemoExtendedFragment,
+  UpdateDemoInput,
   useDeviceTypesAndSoftwareQuery,
-  useUpdateSchemaMutation,
+  useUpdateDemoMutation,
 } from '__generated__/graphql'
 import { ButtonBack, ButtonSave, ErrorNotifier, ModalPreview, SpinnerOverlay } from 'components'
-import { SchemaFormArguments } from '../components'
+import { DemoFormArguments } from '../components'
 import { useNavigate } from 'react-router-dom'
 
 interface Props {
-  schema: SchemaExtendedFragment
+  demo: DemoExtendedFragment
 }
 
-const formatSchemaInput = (schema: SchemaExtendedFragment) => {
+const formatDemoInput = (demo: DemoExtendedFragment) => {
   return {
-    id: schema.id,
-    name: schema.name,
-    type: schema.type,
-    device_type_id: schema.deviceType.id,
-    software_id: schema.software.id,
-    note: schema.note,
-    arguments: schema.arguments.map((argument) => {
+    id: demo.id,
+    name: demo.name,
+    device_type_id: demo.deviceType.id,
+    software_id: demo.software.id,
+    note: demo.note,
+    arguments: demo.arguments.map((argument) => {
       return {
         name: argument.name,
         label: argument.label,
@@ -58,64 +57,64 @@ const formatSchemaInput = (schema: SchemaExtendedFragment) => {
   }
 }
 
-const EditSchemaForm = ({ schema }: Props) => {
+const EditDemoForm = ({ demo }: Props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [visiblePreview, setVisiblePreview] = useState(false)
   const deviceTypesAndSoftware = useDeviceTypesAndSoftwareQuery()
-  const [updateSchemaInput, setUpdateSchemaInput] = useState<UpdateSchemaInput>(
-    formatSchemaInput(schema),
+  const [updateDemoInput, setUpdateDemoInput] = useState<UpdateDemoInput>(
+    formatDemoInput(demo)
   )
-  const [editSchemaMutation, { loading, error }] = useUpdateSchemaMutation()
+  const [editDemoMutation, { loading, error }] = useUpdateDemoMutation()
 
   const handleEdit = async (event: React.FormEvent) => {
     event.preventDefault()
 
-    await editSchemaMutation({
+    await editDemoMutation({
       variables: {
-        updateSchemaInput,
+        updateDemoInput,
       },
     })
       .then((data) => {
-        if (data.data?.updateSchema) {
-          toast.success(t('schemas.update.success'))
-          navigate('/app/schemas/')
+        if (data.data?.updateDemo) {
+          toast.success(t('demos.update.success'))
+          navigate('/app/demos/')
         }
       })
       .catch(() => {
-        toast.error(t('schemas.update.error'))
+        toast.error(t('demos.update.error'))
       })
   }
 
-  const handleDownloadSchema = () => {
-    if (!schema.schema) {
-      toast.error(t('schemas.download.error'))
+  const handleDownloadDemo = () => {
+    if (!demo.demo) {
+      toast.error(t('demos.download.error'))
       return
     }
 
-    fetch(schema.schema)
+    fetch(demo.demo)
       .then((response) => {
         response.blob().then((blob) => {
-          const fileExt = schema.schema?.split('.').pop()
+          const fileExt = demo.demo?.split('.').pop()
           const url = window.URL.createObjectURL(blob)
           let a = document.createElement('a')
           a.href = url
-          a.download = `${schema.name}.${fileExt}`
+          a.download = `${demo.name}.${fileExt}`
           a.click()
-          toast.success(t('schemas.download.success'))
+          toast.success(t('demos.download.success'))
         })
       })
       .catch(() => {
-        toast.error(t('schemas.download.error'))
+        toast.error(t('demos.download.error'))
       })
   }
 
   return (
     <>
-      {schema.preview && (
+      {demo.preview && (
         <ModalPreview
           active={visiblePreview}
-          src={schema.preview}
+          src={demo.preview}
           handleDismiss={() => {
             setVisiblePreview(false)
           }}
@@ -130,41 +129,23 @@ const EditSchemaForm = ({ schema }: Props) => {
           <CFormInput
             type="text"
             id="name"
-            value={updateSchemaInput.name}
+            value={updateDemoInput.name}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setUpdateSchemaInput({ ...updateSchemaInput, name: event.target.value })
+              setUpdateDemoInput({ ...updateDemoInput, name: event.target.value })
             }
           />
-          <CFormLabel>{t('schemas.columns.name')}</CFormLabel>
+          <CFormLabel>{t('demos.columns.name')}</CFormLabel>
         </CFormFloating>
 
         <CRow>
           <CCol sm={4}>
-            <CFormLabel>{t('schemas.columns.schema_type')}</CFormLabel>
-            <CFormSelect
-                className="mb-3"
-                value={updateSchemaInput.type}
-                onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-                  event.preventDefault()
-                  setUpdateSchemaInput({ ...updateSchemaInput, type: event.target.value })
-                }}
-            >
-              <option value="-1"></option>
-              {schema.availableTypes.map((schemaType) => (
-                  <option value={schemaType} key={schemaType}>
-                    {t('schemas.types.' + schemaType)}
-                  </option>
-              ))}
-            </CFormSelect>
-          </CCol>
-          <CCol sm={4}>
-            <CFormLabel>{t('schemas.columns.device_type')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.device_type')}</CFormLabel>
             <CFormSelect
               className="mb-3"
-              value={updateSchemaInput.device_type_id}
+              value={updateDemoInput.device_type_id}
               onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
                 event.preventDefault()
-                setUpdateSchemaInput({ ...updateSchemaInput, device_type_id: event.target.value })
+                setUpdateDemoInput({ ...updateDemoInput, device_type_id: event.target.value })
               }}
             >
               <option value="-1"></option>
@@ -176,13 +157,13 @@ const EditSchemaForm = ({ schema }: Props) => {
             </CFormSelect>
           </CCol>
           <CCol sm={4}>
-            <CFormLabel>{t('schemas.columns.software')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.software')}</CFormLabel>
             <CFormSelect
               className="mb-3"
-              value={updateSchemaInput.software_id}
+              value={updateDemoInput.software_id}
               onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
                 event.preventDefault()
-                setUpdateSchemaInput({ ...updateSchemaInput, software_id: event.target.value })
+                setUpdateDemoInput({ ...updateDemoInput, software_id: event.target.value })
               }}
             >
               <option value="-1"></option>
@@ -198,52 +179,52 @@ const EditSchemaForm = ({ schema }: Props) => {
         <CFormFloating className="mb-3">
           <CFormTextarea
             id="note"
-            value={updateSchemaInput.note || ''}
+            value={updateDemoInput.note || ''}
             onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setUpdateSchemaInput({ ...updateSchemaInput, note: event.target.value })
+              setUpdateDemoInput({ ...updateDemoInput, note: event.target.value })
             }
             style={{ height: '6rem' }}
           ></CFormTextarea>
-          <CFormLabel>{t('schemas.columns.note')}</CFormLabel>
+          <CFormLabel>{t('demos.columns.note')}</CFormLabel>
         </CFormFloating>
 
         <CRow>
           <CCol md={6}>
-            <CFormLabel>{t('schemas.columns.schema')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.demo')}</CFormLabel>
             <div className="d-flex mb-3">
               <CFormInput
                 type="file"
-                id="schema"
+                id="demo"
                 onChange={({ target: { validity, files } }) => {
                   if (validity.valid)
-                    setUpdateSchemaInput({ ...updateSchemaInput, schema: files ? files[0] : null })
+                    setUpdateDemoInput({ ...updateDemoInput, demo: files ? files[0] : null })
                 }}
               />
-              {schema.schema && (
+              {demo.demo && (
                 <CButton
                   color="success"
                   className="ms-2 d-inline-flex justify-content-center align-items-center text-light"
                   type="button"
-                  onClick={handleDownloadSchema}
+                  onClick={handleDownloadDemo}
                 >
                   <CIcon content={cilCloudDownload} />
-                  <span className="ms-1 text-nowrap">{schema.schema.split('/').pop()}</span>
+                  <span className="ms-1 text-nowrap">{demo.demo.split('/').pop()}</span>
                 </CButton>
               )}
             </div>
           </CCol>
           <CCol md={6}>
-            <CFormLabel>{t('schemas.columns.preview')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.preview')}</CFormLabel>
             <div className="d-flex mb-3">
               <CFormInput
                 type="file"
                 id="preview"
                 onChange={({ target: { validity, files } }) => {
                   if (validity.valid)
-                    setUpdateSchemaInput({ ...updateSchemaInput, preview: files ? files[0] : null })
+                    setUpdateDemoInput({ ...updateDemoInput, preview: files ? files[0] : null })
                 }}
               />
-              {schema.preview && (
+              {demo.preview && (
                 <CButton
                   color="warning"
                   className="ms-2 d-inline-flex justify-content-center align-items-center text-light"
@@ -257,10 +238,10 @@ const EditSchemaForm = ({ schema }: Props) => {
           </CCol>
         </CRow>
 
-        {updateSchemaInput.device_type_id !== '-1' && (
-            <SchemaFormArguments
+        {updateDemoInput.device_type_id !== '-1' && (
+            <DemoFormArguments
                 outputValues={deviceTypesAndSoftware.data?.deviceTypes
-                    .filter((deviceType) => deviceType.id === updateSchemaInput.device_type_id)
+                    .filter((deviceType) => deviceType.id === updateDemoInput.device_type_id)
                     .reduce((accumulator: string[], deviceType) => {
                       deviceType.experiment.forEach((experiment) => {
                         experiment.output_arguments.forEach((outputArgument) => {
@@ -271,8 +252,8 @@ const EditSchemaForm = ({ schema }: Props) => {
                       })
                       return accumulator
                     }, [])}
-                schemaArguments={
-                  updateSchemaInput.arguments?.map((argument) => {
+                demoArguments={
+                  updateDemoInput.arguments?.map((argument) => {
                     return {
                       name: argument.name,
                       label: argument.label,
@@ -289,20 +270,20 @@ const EditSchemaForm = ({ schema }: Props) => {
                     }
                   }) as ArgumentInput[]
                 }
-                handleChange={(args) => setUpdateSchemaInput({ ...updateSchemaInput, arguments: args })}
+                handleChange={(args) => setUpdateDemoInput({ ...updateDemoInput, arguments: args })}
             />
         ) || (
-            <CAlert className="text-center" color="info">{t('schemas.device_type_warning')}</CAlert>
+            <CAlert className="text-center" color="info">{t('demos.device_type_warning')}</CAlert>
         )}
 
 
         <div className="text-right">
           <ButtonBack className="me-2" />
-          {updateSchemaInput.device_type_id !== '-1' && (<ButtonSave />)}
+          {updateDemoInput.device_type_id !== '-1' && (<ButtonSave />)}
         </div>
       </CForm>
     </>
   )
 }
 
-export default EditSchemaForm
+export default EditDemoForm

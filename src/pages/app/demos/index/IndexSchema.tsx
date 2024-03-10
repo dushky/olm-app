@@ -3,21 +3,21 @@ import { useTranslation } from 'react-i18next'
 import { cilCalculator } from '@coreui/icons'
 
 import { ButtonAdd, Can, Card, ErrorNotifier, SpinnerOverlay, TrashedDropdown } from 'components'
-import { SchemaBasicFragment, Trashed, useSchemasQuery } from '__generated__/graphql'
-import IndexSchemaTable from './IndexSchemaTable'
+import { DemoBasicFragment, Trashed, useDemosQuery } from '__generated__/graphql'
+import IndexDemoTable from './IndexSchemaTable'
 
-const IndexSchema: React.FC = () => {
+const IndexDemo: React.FC = () => {
   const { t } = useTranslation()
   const [withTrashed, setWithTrashed] = useState(Trashed.Without)
-  const [schemas, setSchemas] = useState<SchemaBasicFragment[]>()
-  const { data, loading, error, refetch } = useSchemasQuery({
+  const [demos, setDemos] = useState<DemoBasicFragment[]>()
+  const { data, loading, error, refetch } = useDemosQuery({
     variables: {
       trashed: withTrashed,
     },
   })
 
   useEffect(() => {
-    if (data?.schemas) setSchemas(data.schemas)
+    if (data?.demos) setDemos(data.demos)
   }, [data])
 
   if (error) return <ErrorNotifier error={error} />
@@ -27,21 +27,21 @@ const IndexSchema: React.FC = () => {
       {loading && <SpinnerOverlay transparent={true} />}
       <Card
         icon={cilCalculator}
-        title={t('schemas.index.title')}
+        title={t('demos.index.title')}
         actions={
-          <Can permission="schema.create">
-            <ButtonAdd to="/app/schemas/create" />
+          <Can permission="demo.create">
+            <ButtonAdd to="/app/demos/create" />
           </Can>
         }
       >
         <>
           <TrashedDropdown initial={withTrashed} handleChange={setWithTrashed} />
           <hr />
-          {schemas && <IndexSchemaTable schemas={schemas} refetch={refetch} />}
+          {demos && <IndexDemoTable demos={demos} refetch={refetch} />}
         </>
       </Card>
     </>
   )
 }
 
-export default IndexSchema
+export default IndexDemo

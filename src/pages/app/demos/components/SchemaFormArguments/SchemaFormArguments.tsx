@@ -4,46 +4,46 @@ import CIcon from '@coreui/icons-react'
 import { CButton } from '@coreui/react'
 import { useTranslation } from 'react-i18next'
 import { ArgumentInput } from '__generated__/graphql'
-import SchemaFormArgumentsRow from './SchemaFormArgumentsRow'
+import DemoFormArgumentsRow from './SchemaFormArgumentsRow'
 
 interface Props {
-  schemaArguments?: ArgumentInput[]
+  demoArguments?: ArgumentInput[]
   handleChange?: (args: ArgumentInput[]) => void
   outputValues?: string[]
 }
 
-const SchemaFormArguments: React.FC<Props> = ({
-  schemaArguments: schemaArgumentsProp = [],
+const DemoFormArguments: React.FC<Props> = ({
+  demoArguments: demoArgumentsProp = [],
   handleChange,
   outputValues
 }: Props) => {
   const { t } = useTranslation()
 
-  const [schemaArguments, setSchemaArguments] = useState<ArgumentInput[]>(schemaArgumentsProp)
+  const [demoArguments, setDemoArguments] = useState<ArgumentInput[]>(demoArgumentsProp)
 
   useEffect(() => {
-    if (handleChange) handleChange(schemaArguments)
-  }, [schemaArguments])
+    if (handleChange) handleChange(demoArguments)
+  }, [demoArguments])
 
   return (
     <>
-      <h5 className="text-center mt-3">{t('schemas.arguments')}</h5>
+      <h5 className="text-center mt-3">{t('demos.arguments')}</h5>
 
-      {schemaArguments.map((argument, index) => (
+      {demoArguments.map((argument, index) => (
         <React.Fragment key={index}>
-          <SchemaFormArgumentsRow
+          <DemoFormArgumentsRow
               outputValues={outputValues}
             argument={argument}
             handleDelete={() => {
-              const reduced = [...schemaArguments]
+              const reduced = [...demoArguments]
               reduced.splice(index, 1)
-              setSchemaArguments(reduced)
+              setDemoArguments(reduced)
             }}
             handleChange={(arg) => {
-              setSchemaArguments([
-                ...schemaArguments.slice(0, index),
+              setDemoArguments([
+                ...demoArguments.slice(0, index),
                 arg,
-                ...schemaArguments.slice(index + 1),
+                ...demoArguments.slice(index + 1),
               ])
             }}
           />
@@ -55,8 +55,8 @@ const SchemaFormArguments: React.FC<Props> = ({
         <CButton
           className="d-inline-flex justify-content-center align-items-center text-light"
           onClick={() => {
-            setSchemaArguments([
-              ...schemaArguments,
+            setDemoArguments([
+              ...demoArguments,
               {
                 name: '',
                 label: '',
@@ -69,11 +69,11 @@ const SchemaFormArguments: React.FC<Props> = ({
           }}
         >
           <CIcon className="me-1" content={cilPlus} />
-          {t('schemas.add_argument')}
+          {t('demos.add_argument')}
         </CButton>
       </div>
     </>
   )
 }
 
-export default SchemaFormArguments
+export default DemoFormArguments

@@ -1,17 +1,13 @@
-query Schemas($trashed: Trashed) {
-  schemas(trashed: $trashed) {
-    ...SchemaBasic
+query Demos($trashed: Trashed) {
+  demos(trashed: $trashed) {
+    ...DemoBasic
   }
 }
 
-query Schema($id: ID!) {
-  schema(id: $id) {
-    ...SchemaExtended
+query Demo($id: ID!) {
+  demo(id: $id) {
+    ...DemoExtended
   }
-}
-
-query AvailableSchemaTypes {
-  availableSchemaTypes
 }
 
 query DeviceTypesAndSoftware {

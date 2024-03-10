@@ -42,7 +42,7 @@ import EditSchema from 'pages/app/schemas/edit'
 
 //demos
 import IndexDemo from 'pages/app/demos/index'
-import CreateDemo from 'pages/app/schemas/create'
+import CreateDemo from 'pages/app/demos/create'
 import EditDemo from 'pages/app/demos/edit'
 
 // user experiments
@@ -240,7 +240,7 @@ const routes = (loggedIn: boolean) => [
             path: '/',
             element: (
               <Can permission="schema.show" notify={true}>
-                <IndexDemo />
+                <IndexDemo /> 
               </Can>
             ),
           },
@@ -248,7 +248,7 @@ const routes = (loggedIn: boolean) => [
             path: '/create',
             element: (
               <Can permission="schema.create" notify={true}>
-                <CreateDemo />
+                <CreateDemo /> 
               </Can>
             ),
           },
@@ -256,7 +256,7 @@ const routes = (loggedIn: boolean) => [
             path: ':id/edit',
             element: (
               <Can permission="schema.update" notify={true}>
-                <EditDemo />
+                <EditDemo /> 
               </Can>
             ),
           },

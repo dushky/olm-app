@@ -122,7 +122,8 @@
     "server": "Server",
     "reservation": "Rezervácia",
     "schema": "Schéma",
-    "user_experiment": "Report"
+    "user_experiment": "Report",
+    "demo": "Demo"
   },
 
   "users": {
@@ -346,11 +347,11 @@
     "columns": {
       "id": "ID",
       "name": "Názov",
-      "schema_type": "Typ dema",
+      "demo_type": "Typ dema",
       "device_type": "Typ zariadenia",
       "software": "Softvér",
       "note": "Poznámka",
-      "schema": "Demo",
+      "demo": "Demo",
       "preview": "Náhľad",
       "argument": {
         "name": "Názov",

@@ -8,91 +8,91 @@ import { toast } from 'react-toast'
 import { ErrorNotifier, ModalPreview, SpinnerOverlay, Table } from 'components'
 import { TableAction, TableColumn } from 'types'
 import {
-  SchemaBasicFragment,
-  useDeleteSchemaMutation,
-  useRestoreSchemaMutation,
+  DemoBasicFragment,
+  useDeleteDemoMutation,
+  useRestoreDemoMutation,
 } from '__generated__/graphql'
 
 interface Props {
-  schemas: SchemaBasicFragment[]
+  demos: DemoBasicFragment[]
   refetch: () => void
 }
 
-const IndexSchemaTable: React.FC<Props> = ({ schemas, refetch }: Props) => {
+const IndexDemoTable: React.FC<Props> = ({ demos, refetch }: Props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [visiblePreview, setVisiblePreview] = useState(false)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
-  const [deleteSchemaMutation, deleteSchemaVariables] = useDeleteSchemaMutation()
-  const [restoreSchemaMutation, restoreSchemaVariables] = useRestoreSchemaMutation()
+  const [deleteDemoMutation, deleteDemoVariables] = useDeleteDemoMutation()
+  const [restoreDemoMutation, restoreDemoVariables] = useRestoreDemoMutation()
 
-  const handleDeleteSchema = async (id: string) => {
-    let response = window.confirm(t('schemas.delete.confirm'))
+  const handleDeleteDemo = async (id: string) => {
+    let response = window.confirm(t('demos.delete.confirm'))
     if (response) {
-      await deleteSchemaMutation({
+      await deleteDemoMutation({
         variables: { id },
       })
         .then(() => {
           refetch()
-          toast.success(t('schemas.delete.success'))
+          toast.success(t('demos.delete.success'))
         })
         .catch(() => {
-          toast.error(t('schemas.delete.error'))
+          toast.error(t('demos.delete.error'))
         })
     }
   }
 
-  const handleRestoreSchema = async (id: string) => {
-    let response = window.confirm(t('schemas.restore.confirm'))
+  const handleRestoreDemo = async (id: string) => {
+    let response = window.confirm(t('demos.restore.confirm'))
     if (response) {
-      await restoreSchemaMutation({
+      await restoreDemoMutation({
         variables: { id },
       })
         .then(() => {
           refetch()
-          toast.success(t('schemas.restore.success'))
+          toast.success(t('demos.restore.success'))
         })
         .catch(() => {
-          toast.error(t('schemas.restore.error'))
+          toast.error(t('demos.restore.error'))
         })
     }
   }
 
-  const handleDownloadSchema = (id: string) => {
-    schemas.forEach((schema) => {
-      if (schema.id === id) {
-        if (!schema.schema) {
-          toast.error(t('schemas.download.error'))
+  const handleDownloadDemo = (id: string) => {
+    demos.forEach((demo) => {
+      if (demo.id === id) {
+        if (!demo.demo) {
+          toast.error(t('demos.download.error'))
           return
         }
-        fetch(schema.schema)
+        fetch(demo.demo)
           .then((response) => {
             response.blob().then((blob) => {
-              const fileExt = schema.schema?.split('.').pop()
+              const fileExt = demo.demo?.split('.').pop()
               const url = window.URL.createObjectURL(blob)
               let a = document.createElement('a')
               a.href = url
-              a.download = `${schema.name}.${fileExt}`
+              a.download = `${demo.name}.${fileExt}`
               a.click()
-              toast.success(t('schemas.download.success'))
+              toast.success(t('demos.download.success'))
             })
           })
           .catch(() => {
-            toast.error(t('schemas.download.error'))
+            toast.error(t('demos.download.error'))
           })
       }
     })
   }
 
   const handleOpenPreviewModal = (id: string) => {
-    schemas.forEach((schema) => {
-      if (schema.id === id) {
-        if (!schema.preview) {
-          toast.error(t('schemas.preview.error'))
+    demos.forEach((demo) => {
+      if (demo.id === id) {
+        if (!demo.preview) {
+          toast.error(t('demos.preview.error'))
           return
         }
-        setPreviewUrl(schema.preview)
+        setPreviewUrl(demo.preview)
         setVisiblePreview(true)
       }
     })
@@ -101,20 +101,20 @@ const IndexSchemaTable: React.FC<Props> = ({ schemas, refetch }: Props) => {
   const columns: TableColumn[] = [
     {
       column: 'id',
-      name: t('schemas.columns.id'),
+      name: t('demos.columns.id'),
       style: { width: '80px' },
     },
     {
       column: 'name',
-      name: t('schemas.columns.name'),
+      name: t('demos.columns.name'),
     },
     {
       column: 'deviceType.name',
-      name: t('schemas.columns.device_type'),
+      name: t('demos.columns.device_type'),
     },
     {
       column: 'software.name',
-      name: t('schemas.columns.software'),
+      name: t('demos.columns.software'),
     },
   ]
 
@@ -122,50 +122,50 @@ const IndexSchemaTable: React.FC<Props> = ({ schemas, refetch }: Props) => {
     {
       color: 'warning',
       textColor: 'light',
-      permission: 'schema.show',
+      permission: 'demo.show',
       icon: <CIcon content={cilImage} />,
       handleClick: handleOpenPreviewModal,
     },
     {
       color: 'success',
       textColor: 'light',
-      permission: 'schema.show',
+      permission: 'demo.show',
       icon: <CIcon content={cilCloudDownload} />,
-      handleClick: handleDownloadSchema,
+      handleClick: handleDownloadDemo,
     },
     {
       color: 'primary',
       onDeleted: false,
       icon: <CIcon content={cilPencil} />,
-      permission: 'schema.update',
+      permission: 'demo.update',
       handleClick: (id: string) => {
-        navigate(`/app/schemas/${id}/edit`)
+        navigate(`/app/demos/${id}/edit`)
       },
     },
     {
       color: 'danger',
       textColor: 'light',
-      permission: 'schema.delete',
+      permission: 'demo.delete',
       onDeleted: false,
       icon: <CIcon content={cilTrash} />,
-      handleClick: handleDeleteSchema,
+      handleClick: handleDeleteDemo,
     },
     {
       color: 'dark',
       textColor: 'light',
-      permission: 'schema.restore',
+      permission: 'demo.restore',
       onNonDeleted: false,
       text: t('user_experiments.restore.button'),
       icon: <CIcon content={cilActionUndo} />,
-      handleClick: handleRestoreSchema,
+      handleClick: handleRestoreDemo,
     },
   ]
 
   return (
     <>
-      {deleteSchemaVariables.error && <ErrorNotifier error={deleteSchemaVariables.error} />}
-      {restoreSchemaVariables.error && <ErrorNotifier error={restoreSchemaVariables.error} />}
-      {(deleteSchemaVariables.loading || restoreSchemaVariables.loading) && (
+      {deleteDemoVariables.error && <ErrorNotifier error={deleteDemoVariables.error} />}
+      {restoreDemoVariables.error && <ErrorNotifier error={restoreDemoVariables.error} />}
+      {(deleteDemoVariables.loading || restoreDemoVariables.loading) && (
         <SpinnerOverlay transparent={true} />
       )}
 
@@ -178,9 +178,9 @@ const IndexSchemaTable: React.FC<Props> = ({ schemas, refetch }: Props) => {
         }}
       />
 
-      <Table columns={columns} data={schemas} actions={actions} />
+      <Table columns={columns} data={demos} actions={actions} />
     </>
   )
 }
 
-export default IndexSchemaTable
+export default IndexDemoTable

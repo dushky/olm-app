@@ -17,48 +17,45 @@ import { toast } from 'react-toast'
 
 import {
     ArgumentInput,
-    CreateSchemaInput, useAvailableSchemaTypesQuery,
-    useCreateSchemaMutation,
+    CreateDemoInput,
+    useCreateDemoMutation,
     useDeviceTypesAndSoftwareQuery,
 } from '__generated__/graphql'
-import { SchemaFormArguments } from '../components'
+import { DemoFormArguments } from '../components'
 
-const CreateSchemaForm: React.FC = () => {
+const CreateDemoForm: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
   const deviceTypesAndSoftware = useDeviceTypesAndSoftwareQuery()
-  const availableSchemaTypes = useAvailableSchemaTypesQuery()
 
-    console.log(deviceTypesAndSoftware)
-  const [createSchemaInput, setCreateSchemaInput] = useState<CreateSchemaInput>({
+  const [createDemoInput, setCreateDemoInput] = useState<CreateDemoInput>({
     name: '',
-    type: '-1',
     device_type_id: deviceTypesAndSoftware.data?.deviceTypes[0].id || '-1',
     software_id: deviceTypesAndSoftware.data?.software[0].id || '-1',
     note: undefined,
     arguments: [],
-    schema: null
+    demo: null
   })
 
-  const [createSchemaMutation, { loading, error }] = useCreateSchemaMutation()
+  const [createDemoMutation, { loading, error }] = useCreateDemoMutation()
 
   const handleCreate = async (event: React.FormEvent) => {
     event.preventDefault()
 
-    await createSchemaMutation({
+    await createDemoMutation({
       variables: {
-        createSchemaInput,
+        createDemoInput,
       },
     })
       .then((data) => {
-        if (data.data?.createSchema) {
-          toast.success(t('schemas.create.success'))
-          navigate('/app/schemas/')
+        if (data.data?.createDemo) {
+          toast.success(t('demos.create.success'))
+          navigate('/app/demos/')
         }
       })
       .catch(() => {
-        toast.error(t('schemas.create.error'))
+        toast.error(t('demos.create.error'))
       })
   }
 
@@ -72,41 +69,23 @@ const CreateSchemaForm: React.FC = () => {
         <CFormInput
           type="text"
           id="name"
-          value={createSchemaInput.name}
+          value={createDemoInput.name}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setCreateSchemaInput({ ...createSchemaInput, name: event.target.value })
+            setCreateDemoInput({ ...createDemoInput, name: event.target.value })
           }
         />
-        <CFormLabel>{t('schemas.columns.name')}</CFormLabel>
+        <CFormLabel>{t('demos.columns.name')}</CFormLabel>
       </CFormFloating>
 
       <CRow>
         <CCol md={4}>
-          <CFormLabel>{t('schemas.columns.schema_type')}</CFormLabel>
-          <CFormSelect
-              className="mb-3"
-              value={createSchemaInput.type}
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-                event.preventDefault()
-                setCreateSchemaInput({ ...createSchemaInput, type: event.target.value })
-              }}
-          >
-            <option value="-1"></option>
-            {availableSchemaTypes.data?.availableSchemaTypes.map((schemaType) => (
-                <option value={schemaType} key={schemaType}>
-                  {t('schemas.types.' + schemaType)}
-                </option>
-            ))}
-          </CFormSelect>
-        </CCol>
-        <CCol md={4}>
-          <CFormLabel>{t('schemas.columns.device_type')}</CFormLabel>
+          <CFormLabel>{t('demos.columns.device_type')}</CFormLabel>
           <CFormSelect
             className="mb-3"
-            value={createSchemaInput.device_type_id}
+            value={createDemoInput.device_type_id}
             onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
               event.preventDefault()
-              setCreateSchemaInput({ ...createSchemaInput, device_type_id: event.target.value })
+              setCreateDemoInput({ ...createDemoInput, device_type_id: event.target.value })
             }}
           >
             <option value="-1"></option>
@@ -118,13 +97,13 @@ const CreateSchemaForm: React.FC = () => {
           </CFormSelect>
         </CCol>
         <CCol md={4}>
-          <CFormLabel>{t('schemas.columns.software')}</CFormLabel>
+          <CFormLabel>{t('demos.columns.software')}</CFormLabel>
           <CFormSelect
             className="mb-3"
-            value={createSchemaInput.software_id}
+            value={createDemoInput.software_id}
             onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
               event.preventDefault()
-              setCreateSchemaInput({ ...createSchemaInput, software_id: event.target.value })
+              setCreateDemoInput({ ...createDemoInput, software_id: event.target.value })
             }}
           >
             <option value="-1"></option>
@@ -140,48 +119,48 @@ const CreateSchemaForm: React.FC = () => {
       <CFormFloating className="mb-3">
         <CFormTextarea
           id="note"
-          value={createSchemaInput.note || ''}
+          value={createDemoInput.note || ''}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-            setCreateSchemaInput({ ...createSchemaInput, note: event.target.value })
+            setCreateDemoInput({ ...createDemoInput, note: event.target.value })
           }
           style={{ height: '6rem' }}
         ></CFormTextarea>
-        <CFormLabel>{t('schemas.columns.note')}</CFormLabel>
+        <CFormLabel>{t('demos.columns.note')}</CFormLabel>
       </CFormFloating>
 
       <CRow>
         <CCol md={6}>
           <div className="mb-3">
-            <CFormLabel>{t('schemas.columns.schema')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.demo')}</CFormLabel>
             <CFormInput
               type="file"
-              id="schema"
+              id="demo"
               onChange={({ target: { validity, files } }) => {
                 if (validity.valid)
-                  setCreateSchemaInput({ ...createSchemaInput, schema: files ? files[0] : null })
+                  setCreateDemoInput({ ...createDemoInput, demo: files ? files[0] : null })
               }}
             />
           </div>
         </CCol>
         <CCol md={6}>
           <div className="mb-3">
-            <CFormLabel>{t('schemas.columns.preview')}</CFormLabel>
+            <CFormLabel>{t('demos.columns.preview')}</CFormLabel>
             <CFormInput
               type="file"
               id="preview"
               onChange={({ target: { validity, files } }) => {
                 if (validity.valid)
-                  setCreateSchemaInput({ ...createSchemaInput, preview: files ? files[0] : null })
+                  setCreateDemoInput({ ...createDemoInput, preview: files ? files[0] : null })
               }}
             />
           </div>
         </CCol>
       </CRow>
 
-        {createSchemaInput.device_type_id !== '-1' && (
-            <SchemaFormArguments
+        {createDemoInput.device_type_id !== '-1' && (
+            <DemoFormArguments
                 outputValues={deviceTypesAndSoftware.data?.deviceTypes
-                    .filter((deviceType) => deviceType.id === createSchemaInput.device_type_id)
+                    .filter((deviceType) => deviceType.id === createDemoInput.device_type_id)
                     .reduce((accumulator: string[], deviceType) => {
                         deviceType.experiment.forEach((experiment) => {
                             experiment.output_arguments.forEach((outputArgument) => {
@@ -192,19 +171,19 @@ const CreateSchemaForm: React.FC = () => {
                         })
                         return accumulator
                     }, [])}
-                schemaArguments={createSchemaInput.arguments as ArgumentInput[]}
-                handleChange={(args) => setCreateSchemaInput({ ...createSchemaInput, arguments: args })}
+                demoArguments={createDemoInput.arguments as ArgumentInput[]}
+                handleChange={(args) => setCreateDemoInput({ ...createDemoInput, arguments: args })}
             />
         ) || (
-            <CAlert className="text-center" color="info">{t('schemas.device_type_warning')}</CAlert>
+            <CAlert className="text-center" color="info">{t('demos.device_type_warning')}</CAlert>
         )}
 
       <div className="text-right">
         <ButtonBack className="me-2" />
-          {createSchemaInput.device_type_id !== '-1' && (<ButtonSave />)}
+          {createDemoInput.device_type_id !== '-1' && (<ButtonSave />)}
       </div>
     </CForm>
   )
 }
 
-export default CreateSchemaForm
+export default CreateDemoForm

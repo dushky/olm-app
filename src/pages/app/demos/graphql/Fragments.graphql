@@ -1,7 +1,7 @@
-fragment SchemaBasic on Schema {
+fragment DemoBasic on Demo {
   id
   name
-  schema
+  demo
   preview
   deviceType {
     name
@@ -12,13 +12,11 @@ fragment SchemaBasic on Schema {
   deleted_at
 }
 
-fragment SchemaExtended on Schema {
+fragment DemoExtended on Demo {
   id
   name
-  type
-  availableTypes
   note
-  schema
+  demo
   preview
   deviceType {
     id

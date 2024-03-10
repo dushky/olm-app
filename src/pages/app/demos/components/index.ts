@@ -1,3 +1,3 @@
-import SchemaFormArguments from './SchemaFormArguments/SchemaFormArguments'
+import DemoFormArguments from './SchemaFormArguments/SchemaFormArguments'
 
-export { SchemaFormArguments }
+export { DemoFormArguments }

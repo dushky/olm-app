@@ -3,16 +3,16 @@ import { cilLockLocked } from '@coreui/icons'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { useSchemaQuery } from '__generated__/graphql'
+import { useDemoQuery } from '__generated__/graphql'
 import { Card, ErrorNotifier, SpinnerOverlay } from 'components'
-import EditSchemaForm from './EditSchemaForm'
+import EditDemoForm from './EditSchemaForm'
 
 
-const EditSchema: React.FC = () => {
+const EditDemo: React.FC = () => {
   const { t } = useTranslation()
   const { id } = useParams()
 
-  const { data, loading, error } = useSchemaQuery({
+  const { data, loading, error } = useDemoQuery({
     variables: {
       id,
     },
@@ -20,13 +20,13 @@ const EditSchema: React.FC = () => {
 
   if (loading) return <SpinnerOverlay transparent={true} />
   if (error) return <ErrorNotifier error={error} />
-  if (!data?.schema) return <div>404</div>
+  if (!data?.demo) return <div>404</div>
 
   return (
     <Card icon={cilLockLocked} title={t('actions.edit')}>
-      <EditSchemaForm schema={data.schema} />
+      <EditDemoForm demo={data.demo} />
     </Card>
   )
 }
 
-export default EditSchema
+export default EditDemo

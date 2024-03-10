@@ -1,24 +1,24 @@
-mutation CreateSchema($createSchemaInput: CreateSchemaInput!) {
-  createSchema(input: $createSchemaInput) {
-    ...SchemaExtended
+mutation CreateDemo($createDemoInput: CreateDemoInput!) {
+  createDemo(input: $createDemoInput) {
+    ...DemoExtended
   }
 }
 
-mutation UpdateSchema($updateSchemaInput: UpdateSchemaInput!) {
-  updateSchema(input: $updateSchemaInput) {
-    ...SchemaExtended
+mutation UpdateDemo($updateDemoInput: UpdateDemoInput!) {
+  updateDemo(input: $updateDemoInput) {
+    ...DemoExtended
   }
 }
 
 
-mutation DeleteSchema($id: ID!) {
-  deleteSchema(id: $id) {
+mutation DeleteDemo($id: ID!) {
+  deleteDemo(id: $id) {
     id
   }
 }
 
-mutation RestoreSchema($id: ID!) {
-  restoreSchema(id: $id) {
+mutation RestoreDemo($id: ID!) {
+  restoreDemo(id: $id) {
     id
   }
 }

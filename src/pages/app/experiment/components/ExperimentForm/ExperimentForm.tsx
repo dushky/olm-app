@@ -120,7 +120,8 @@ const ExperimentForm: React.FC<Props> = ({
       setSelectedCommand(commands[0] || undefined)
 
       const schema = userExperiment ? userExperiment.schema : undefined
-
+      console.log(selectedExperiment);
+      
       if (schema) setSelectedSchema(schema)
     },
     [experiments, getCommands, selectedExperiment, data?.schemas],
